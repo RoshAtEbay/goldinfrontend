@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 export const metadata: Metadata = {
   title: 'Goldin Admin | Bid Management',
   description:
-    'Current state of bid management in Zen Admin: the user profile Bids tab and the Edit Bid modal.',
+    'Bid management in Zen Admin: the current state plus three proposed options for adjusting and removing a bid.',
   generator: 'v0.app',
   icons: {
     icon: [

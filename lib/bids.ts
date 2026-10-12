@@ -43,6 +43,19 @@ export const BID = {
 
 export const MAX_BID_INPUT_ID = 'max-bid-input'
 
+export const LOT_LABEL = 'Pokémon Lot'
+export const NEXT_BID = 187.5
+
+export const OTHER_BID = {
+  placedAt: '09/24/2026 10:00 AM',
+  lotNumber: 1,
+  title: 'Baseball Card',
+  maxBid: 90,
+  currentPrice: 90,
+  winner: false,
+  bidCount: 3,
+}
+
 const currency = new Intl.NumberFormat('en-US', {
   style: 'currency',
   currency: 'USD',
