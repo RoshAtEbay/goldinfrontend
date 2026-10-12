@@ -4,7 +4,6 @@ import { useState } from 'react'
 import { CurrentState } from './current-state'
 import { OptionA } from './option-a'
 import { OptionB } from './option-b'
-import { OptionC } from './option-c'
 import { TableOptionA } from './table-option-a'
 import { TableOptionC as TableOptionB } from './table-option-c'
 import { Switcher } from './variant-switcher'
@@ -16,7 +15,7 @@ const SURFACES = [
 ] as const
 
 type SurfaceId = (typeof SURFACES)[number]['id']
-type OptionId = 'a' | 'b' | 'c'
+type OptionId = 'a' | 'b'
 
 const OPTIONS: Record<
   Exclude<SurfaceId, 'current'>,
@@ -29,7 +28,6 @@ const OPTIONS: Record<
   modal: [
     { id: 'a', label: 'Option A' },
     { id: 'b', label: 'Option B' },
-    { id: 'c', label: 'Option C' },
   ],
 }
 
@@ -38,7 +36,7 @@ const VIEWS: Record<
   Partial<Record<OptionId, () => React.JSX.Element>>
 > = {
   table: { a: TableOptionA, b: TableOptionB },
-  modal: { a: OptionA, b: OptionB, c: OptionC },
+  modal: { a: OptionA, b: OptionB },
 }
 
 const PANEL_ID = 'board-panel'
