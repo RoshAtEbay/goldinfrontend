@@ -34,7 +34,7 @@ function HoverRevealTable({ hovered }: { hovered: boolean }) {
           <th scope="col" className={TH}>
             Winner
           </th>
-          <th scope="col" className={cn(TH, 'w-[216px] min-w-[216px]')}>
+          <th scope="col" className={cn(TH, 'w-[190px] min-w-[190px]')}>
             # Bids
           </th>
         </tr>

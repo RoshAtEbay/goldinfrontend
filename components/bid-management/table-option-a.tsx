@@ -5,6 +5,7 @@ import {
   BidLinkHeader,
   ChangeBidButton,
   DateTimeHeader,
+  ROW,
   TD,
   TD_DATE,
   TH,
@@ -13,36 +14,36 @@ import {
 
 function ActionsColumnTable({ active }: { active: boolean }) {
   return (
-    <table className="w-full border-collapse text-left text-[12px]">
+    <table className="w-full min-w-[640px] border-collapse text-left text-[12px]">
       <thead>
         <tr className="border-b border-divider">
-          <DateTimeHeader />
-          <th scope="col" className={TH}>
+          <DateTimeHeader className="w-[140px]" />
+          <th scope="col" className={cn(TH, 'w-[60px]')}>
             Lot Number
           </th>
-          <th scope="col" className={TH}>
+          <th scope="col" className={cn(TH, 'w-[90px]')}>
             Title
           </th>
-          <th scope="col" className={TH}>
+          <th scope="col" className={cn(TH, 'w-[70px]')}>
             Bid Amount
           </th>
-          <BidLinkHeader />
-          <th scope="col" className={TH}>
+          <BidLinkHeader className="w-[40px]" />
+          <th scope="col" className={cn(TH, 'w-[80px]')}>
             Current Price
           </th>
-          <th scope="col" className={TH}>
+          <th scope="col" className={cn(TH, 'w-[55px]')}>
             Winner
           </th>
-          <th scope="col" className={TH}>
+          <th scope="col" className={cn(TH, 'w-[50px]')}>
             # Bids
           </th>
-          <th scope="col" className={cn(TH, 'text-right')}>
+          <th scope="col" className={cn(TH, 'w-[80px] text-right')}>
             Actions
           </th>
         </tr>
       </thead>
       <tbody>
-        <tr className={cn('text-ink', active && 'bg-row-tint')}>
+        <tr className={cn(ROW, 'text-ink', active && 'bg-row-tint')}>
           <td className={TD_DATE}>{BID.placedAt}</td>
           <td className={TD}>{BID.lotNumber}</td>
           <td className={cn(TD, 'text-brand')}>{LOT_LABEL}</td>
