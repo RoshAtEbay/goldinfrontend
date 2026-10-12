@@ -2,8 +2,6 @@ import { cn } from '@/lib/utils'
 import { BID, LOT_LABEL, formatUsd } from '@/lib/bids'
 import { OptionPair } from './option-pair'
 import {
-  BidLinkHeader,
-  ChangeBidButton,
   DateTimeHeader,
   TD,
   TD_DATE,
@@ -26,7 +24,6 @@ function InlineActionTable({ active }: { active: boolean }) {
           <th scope="col" className={cn(TH, 'w-[170px]')}>
             Max Bid
           </th>
-          <BidLinkHeader />
           <th scope="col" className={TH}>
             Current Price
           </th>
@@ -60,7 +57,6 @@ function InlineActionTable({ active }: { active: boolean }) {
               </button>
             </div>
           </td>
-          <td className={cn(TD, 'text-brand')}>Bid</td>
           <td className={TD}>{formatUsd(BID.currentPrice)}</td>
           <td className={TD}>{BID.winner ? 'Yes' : 'No'}</td>
           <td className={TD}>{BID.bidCount}</td>
@@ -77,7 +73,7 @@ export function TableOptionB() {
       left={{
         title: 'Option B — Default',
         description:
-          'Same placement as Option A, but Change bid is a bordered button inside the Max Bid cell, so it reads as an action.',
+          'Same placement as Option A, but Change bid is a bordered button inside the Max Bid cell, so it reads as an action. No new column.',
         banner: {
           kind: 'pros',
           text: 'Action lives next to the data it affects, and the button styling makes it clearly clickable. Easier to spot than a text link.',

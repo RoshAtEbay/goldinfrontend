@@ -77,7 +77,7 @@ function IconActionsTable({ hovered }: { hovered: boolean }) {
             Title
           </th>
           <th scope="col" className={TH}>
-            Bid Amount
+            Max Bid
           </th>
           <BidLinkHeader />
           <th scope="col" className={TH}>
