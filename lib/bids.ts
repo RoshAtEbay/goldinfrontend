@@ -1,33 +1,47 @@
 export const CUSTOMER = {
   name: 'Adam Bales',
-  email: 'adambales@goldin.co',
-  phone: '+13604857425',
-  shipping: ['123 Main St', 'Portland, Oregon', 'United States, 97201'],
+  status: 'ACTIVE',
+  registeredOn: '04/13/2026 3:39 PM',
+  email: 'adam.s.bales+1@gmail.com',
+  phone: '+12539517025',
+  shipping: [
+    'Adam Bales',
+    '11640 sw oak creek drive',
+    'portland, oregon 97219',
+    'US',
+  ],
   payoutAddress: 'Adam Bales',
 }
 
 export const PROFILE_TABS = [
-  'Customer Invoices',
-  'Auctions',
-  'Seller Statements',
-  'Shipment Manager',
-  'Billing',
-  'Bids',
-  'Wish List',
-  'Consigned Lots',
+  'Customer Overview',
   'Invoices',
+  'Seller Statements',
+  'Balance',
+  'Shipment Manager',
+  'Activity',
+  'Bids',
+  'Watch List',
+  'Consigned Lots',
+  'Notes',
   'Merge Accounts',
 ] as const
 
+export const AUCTION_NAME = 'Gengar'
+
 export const BID = {
-  placedAt: '09/19/2026 12:15 PM',
-  lotNumber: 4,
-  title: 'Pokémon Lot',
+  placedAt: '09/25/2026 12:36 PM',
+  lotNumber: 2,
+  title: 'Pokemon Lot',
   initialMaxBid: 175,
-  currentPrice: 150,
+  currentPrice: 175,
+  minimumBid: 175,
+  biddingPower: 9825,
   winner: true,
   bidCount: 14,
 }
+
+export const MAX_BID_INPUT_ID = 'max-bid-input'
 
 const currency = new Intl.NumberFormat('en-US', {
   style: 'currency',
