@@ -1,6 +1,6 @@
 'use client'
 
-import { TriangleAlert, X } from 'lucide-react'
+import { Trash2, X } from 'lucide-react'
 import { BID, CUSTOMER, LOT_LABEL, formatUsd } from '@/lib/bids'
 import { MaxBidInput, SaveBidButton, useMaxBidField } from './max-bid-field'
 import { OptionPair } from './option-pair'
@@ -23,7 +23,7 @@ export function OptionA() {
       left={{
         title: 'Option A — Default',
         description:
-          'CS clicks Change bid on a row. Existing max bid adjustment UI with a Save bid button beside the field, a "Set to current price" shortcut below it, and a removal danger zone added below that.',
+          'CS clicks Change bid on a row. Existing max bid adjustment UI with a Save bid button beside the field, a "Set to current price" shortcut below it, and a Remove bid section added below that.',
         banner: {
           kind: 'pros',
           text: 'Lowest learning curve. Minimum change to existing patterns. Fast to build and approve.',
@@ -69,19 +69,17 @@ export function OptionA() {
 
             <hr className="my-5 border-divider" />
 
-            <p className="text-[12px] font-semibold uppercase tracking-wide text-error-line">
-              Remove bid
-            </p>
-            <p className="mt-2 text-[13px] leading-relaxed text-subtle">
+            <h4 className="text-[15px] font-semibold text-ink">Remove bid</h4>
+            <p className="mt-2 text-[14px] leading-relaxed text-subtle">
               Permanently removes this user&apos;s bid from this lot. This may
               result in the item going unsold or reducing the sale price.
             </p>
-            <div className="mt-3 flex justify-end">
+            <div className="mt-4 flex justify-end">
               <button
                 type="button"
-                className="flex h-[34px] w-[100px] items-center justify-center gap-1.5 rounded border border-error-line bg-surface text-[13px] font-medium text-error-line hover:bg-danger-bg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-error-line"
+                className="flex h-10 items-center justify-center gap-2 rounded-md border border-button-line bg-surface px-4 text-[14px] text-error-line hover:bg-danger-bg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-error-line"
               >
-                <TriangleAlert aria-hidden className="size-3.5" />
+                <Trash2 aria-hidden className="size-4" />
                 Remove bid
               </button>
             </div>
@@ -94,7 +92,7 @@ export function OptionA() {
           'CS clicks Remove bid. A second confirmation modal shows who wins afterwards and requires ticking a checkbox before the bid can be removed.',
         banner: {
           kind: 'cons',
-          text: 'One modal doing two different jobs. The danger zone at the bottom may get missed under pressure. The required checkbox adds one more click to every removal.',
+          text: 'One modal doing two different jobs. The Remove bid section at the bottom is quiet and may get missed under pressure. The required checkbox adds one more click to every removal.',
         },
         children: (
           <div className="mx-auto w-full max-w-[400px]">
