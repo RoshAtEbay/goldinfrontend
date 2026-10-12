@@ -113,16 +113,10 @@ export function OptionA() {
                 </h3>
               </div>
               <div className="p-5">
-                <TriangleAlert
-                  aria-hidden
-                  className="mx-auto size-6 text-amber"
-                />
-                <div className="mt-3 text-center">
-                  <RemovalWarning lotLabel={`${LOT_LABEL} #${BID.lotNumber}`} />
-                </div>
+                <RemovalWarning lotLabel={`${LOT_LABEL} #${BID.lotNumber}`} />
                 <RemovalImpact
                   confirm={confirm}
-                  className="mt-4 rounded-md border border-danger-line bg-danger-bg p-3"
+                  className="mt-4 rounded-md bg-context p-3"
                 />
                 <div className="mt-4">
                   <AcknowledgeCheckbox confirm={confirm} />

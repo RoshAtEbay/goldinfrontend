@@ -1,6 +1,7 @@
 'use client'
 
 import { useId, useState } from 'react'
+import { TriangleAlert } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { BID, CUSTOMER, formatUsd } from '@/lib/bids'
 
@@ -118,17 +119,34 @@ export function RemovalImpact({
   )
 }
 
-export function RemovalWarning({ lotLabel }: { lotLabel: string }) {
+export function RemovalWarning({
+  lotLabel,
+  className,
+}: {
+  lotLabel: string
+  className?: string
+}) {
   return (
-    <>
-      <p className="text-[14px] font-semibold text-ink">
-        {CUSTOMER.name}&apos;s bid will be permanently removed from {lotLabel}.
-      </p>
-      <p className="mt-2 text-[13px] leading-relaxed text-subtle">
-        This can result in an item going unsold, or reducing the sale price.
-        Cannot be undone. Do not proceed lightly!
-      </p>
-    </>
+    <div
+      className={cn(
+        'flex items-start gap-3 rounded-md border border-danger-line bg-danger-bg p-4',
+        className,
+      )}
+    >
+      <TriangleAlert
+        aria-hidden
+        className="mt-0.5 size-5 shrink-0 text-error-line"
+      />
+      <div>
+        <p className="text-[15px] font-semibold leading-snug text-error-ink">
+          {`${CUSTOMER.name}'s bid will be permanently removed from ${lotLabel}.`}
+        </p>
+        <p className="mt-1.5 text-[13px] leading-relaxed text-ink">
+          This can result in an item going unsold, or reducing the sale price.
+          Cannot be undone. Do not proceed lightly!
+        </p>
+      </div>
+    </div>
   )
 }
 

@@ -1,6 +1,6 @@
 'use client'
 
-import { Check, Trash2, TriangleAlert, X } from 'lucide-react'
+import { Check, Trash2, X } from 'lucide-react'
 import { BID, CUSTOMER, LOT_LABEL, NEXT_BID, formatUsd } from '@/lib/bids'
 import { MaxBidInput, SaveBidButton, useMaxBidField } from './max-bid-field'
 import { OptionPair } from './option-pair'
@@ -162,19 +162,16 @@ export function OptionB() {
                 <CloseButton />
               </div>
 
+              <RemovalWarning
+                lotLabel={`${LOT_LABEL} #${BID.lotNumber}`}
+                className="mt-4"
+              />
+
               <div className="mb-5 mt-4 rounded-md bg-context px-4 py-3">
                 <p className="text-[14px] font-semibold text-ink">
                   {LOT_LABEL} — Lot #{BID.lotNumber}
                 </p>
                 <RemovalImpact confirm={confirm} className="mt-3" />
-              </div>
-
-              <div className="mb-4 rounded-md border border-warn-edge bg-warn-bg p-3">
-                <TriangleAlert
-                  aria-hidden
-                  className="mb-1.5 size-4 text-amber"
-                />
-                <RemovalWarning lotLabel={`${LOT_LABEL} #${BID.lotNumber}`} />
               </div>
 
               <div className="mb-5">
