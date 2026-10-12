@@ -1,6 +1,6 @@
 'use client'
 
-import { useId, useState } from 'react'
+import { useId, useState, type ReactNode } from 'react'
 import { cn } from '@/lib/utils'
 import { BID, formatUsd, parseUsd } from '@/lib/bids'
 
@@ -36,18 +36,33 @@ export function useMaxBidField(initial: number = BID.initialMaxBid) {
 
 export type MaxBidField = ReturnType<typeof useMaxBidField>
 
+export function SaveBidButton({ field }: { field: MaxBidField }) {
+  return (
+    <button
+      type="button"
+      disabled={!field.canSave}
+      onClick={field.save}
+      className="h-9 shrink-0 rounded bg-brand px-4 text-[13px] font-medium text-white hover:bg-brand/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand disabled:cursor-not-allowed disabled:bg-disabled disabled:hover:bg-disabled"
+    >
+      Save bid
+    </button>
+  )
+}
+
 export function MaxBidInput({
   field,
   helper,
   label,
   compact = false,
   ariaLabel = 'Maximum bid',
+  action,
 }: {
   field: MaxBidField
   helper: string
   label?: string
   compact?: boolean
   ariaLabel?: string
+  action?: ReactNode
 }) {
   const inputId = useId()
   const helperId = useId()
@@ -61,7 +76,9 @@ export function MaxBidInput({
 
   return (
     <div>
-      <div className={cn(label && 'flex items-center gap-2')}>
+      <div
+        className={cn((label || action) && 'flex gap-2', label && 'items-center')}
+      >
         {label && (
           <label
             htmlFor={inputId}
@@ -85,12 +102,13 @@ export function MaxBidInput({
             'rounded border bg-surface px-3 text-ink outline-none focus-visible:ring-2 focus-visible:ring-brand/20',
             compact
               ? 'h-7 w-[120px] text-[12px]'
-              : 'h-9 w-full text-[13px]',
+              : 'h-9 min-w-0 flex-1 text-[13px]',
             field.invalid
               ? 'border-error-line'
               : 'border-field-line focus-visible:border-brand',
           )}
         />
+        {action}
       </div>
       <p
         id={helperId}

@@ -2,8 +2,15 @@
 
 import { Check, Trash2, TriangleAlert, X } from 'lucide-react'
 import { BID, CUSTOMER, LOT_LABEL, NEXT_BID, formatUsd } from '@/lib/bids'
-import { MaxBidInput, useMaxBidField } from './max-bid-field'
+import { MaxBidInput, SaveBidButton, useMaxBidField } from './max-bid-field'
 import { OptionPair } from './option-pair'
+import {
+  AcknowledgeCheckbox,
+  OutcomeToggle,
+  RemovalImpact,
+  RemovalWarning,
+  useRemovalConfirm,
+} from './removal-outcome'
 
 const CARD =
   'mx-auto w-full rounded-lg border border-line bg-surface p-6 shadow-sm'
@@ -55,6 +62,7 @@ function BidFacts({ maxBid }: { maxBid: number }) {
 
 export function OptionB() {
   const field = useMaxBidField()
+  const confirm = useRemovalConfirm()
 
   return (
     <OptionPair
@@ -101,17 +109,8 @@ export function OptionB() {
                 field={field}
                 helper={`Cannot be lower than current price (${formatUsd(BID.currentPrice)})`}
                 ariaLabel="New max bid"
+                action={<SaveBidButton field={field} />}
               />
-              <div className="mt-3 flex justify-end">
-                <button
-                  type="button"
-                  disabled={!field.canSave}
-                  onClick={field.save}
-                  className="h-[34px] w-[110px] rounded bg-brand text-[13px] font-medium text-white hover:bg-brand/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand disabled:cursor-not-allowed disabled:bg-disabled disabled:hover:bg-disabled"
-                >
-                  Save changes
-                </button>
-              </div>
             </div>
 
             <hr className="my-4 border-divider" />
@@ -121,8 +120,8 @@ export function OptionB() {
                 Remove bid
               </p>
               <p className="mb-3 text-[13px] leading-relaxed text-subtle">
-                Removes {CUSTOMER.name} from this lot entirely. The next highest
-                bidder will take their place.
+                Permanently removes this user&apos;s bid from this lot. This may
+                result in the item going unsold or reducing the sale price.
               </p>
               <div className="flex justify-end">
                 <button
@@ -140,62 +139,65 @@ export function OptionB() {
       right={{
         title: 'Option B — Removal Confirmation',
         description:
-          'CS clicks Remove bid. Full-screen confirmation with all relevant context visible.',
+          'CS clicks Remove bid. Full-screen confirmation shows who wins afterwards and requires ticking a checkbox before the bid can be removed.',
         banner: {
           kind: 'cons',
-          text: "More engineering work than Option A. Two-section layout needs careful hierarchy so Adjust and Remove don't get confused.",
+          text: "More engineering work than Option A. Two-section layout needs careful hierarchy so Adjust and Remove don't get confused. The required checkbox adds one more click to every removal.",
         },
         children: (
-          <section
-            role="alertdialog"
-            aria-labelledby="option-b-confirm-title"
-            className={`${CARD} max-w-[460px]`}
-          >
-            <div className="flex items-start justify-between gap-4">
-              <h3
-                id="option-b-confirm-title"
-                className="text-[15px] font-semibold text-ink"
-              >
-                Confirm bid removal
-              </h3>
-              <CloseButton />
-            </div>
+          <div className="mx-auto w-full max-w-[460px]">
+            <OutcomeToggle confirm={confirm} />
+            <section
+              role="alertdialog"
+              aria-labelledby="option-b-confirm-title"
+              className={CARD}
+            >
+              <div className="flex items-start justify-between gap-4">
+                <h3
+                  id="option-b-confirm-title"
+                  className="text-[15px] font-semibold text-ink"
+                >
+                  Confirm bid removal
+                </h3>
+                <CloseButton />
+              </div>
 
-            <div className="mb-5 mt-4 rounded-md bg-context px-4 py-3">
-              <p className="text-[14px] font-semibold text-ink">
-                {LOT_LABEL} — Lot #{BID.lotNumber}
-              </p>
-              <BidFacts maxBid={field.saved} />
-            </div>
+              <div className="mb-5 mt-4 rounded-md bg-context px-4 py-3">
+                <p className="text-[14px] font-semibold text-ink">
+                  {LOT_LABEL} — Lot #{BID.lotNumber}
+                </p>
+                <RemovalImpact confirm={confirm} className="mt-3" />
+              </div>
 
-            <div className="mb-5 rounded-md border border-warn-edge bg-warn-bg p-3 text-[13px] leading-relaxed text-warn-ink">
-              <TriangleAlert
-                aria-hidden
-                className="mr-1.5 inline size-4 -translate-y-px text-amber"
-              />
-              {CUSTOMER.name} will lose their winning position.{' '}
-              {formatUsd(BID.currentPrice)} will no longer be the leading bid.
-              This cannot be undone.
-            </div>
+              <div className="mb-4 rounded-md border border-warn-edge bg-warn-bg p-3">
+                <TriangleAlert
+                  aria-hidden
+                  className="mb-1.5 size-4 text-amber"
+                />
+                <RemovalWarning lotLabel={`${LOT_LABEL} #${BID.lotNumber}`} />
+              </div>
 
-            <div className="flex justify-end gap-2">
-              <button
-                type="button"
-                className="h-9 w-20 rounded border border-button-line bg-surface text-[13px] text-subtle hover:bg-page focus-visible:outline-2 focus-visible:outline-brand"
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                className="h-9 w-[130px] rounded bg-error-line text-[13px] font-medium text-white hover:bg-error-line/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-error-line"
-              >
-                Confirm removal
-              </button>
-            </div>
-            <p className="mt-3 text-center text-[11px] text-faint">
-              The next highest bidder will be notified automatically.
-            </p>
-          </section>
+              <div className="mb-5">
+                <AcknowledgeCheckbox confirm={confirm} />
+              </div>
+
+              <div className="flex justify-end gap-2">
+                <button
+                  type="button"
+                  className="h-9 w-20 rounded border border-button-line bg-surface text-[13px] text-subtle hover:bg-page focus-visible:outline-2 focus-visible:outline-brand"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  disabled={!confirm.understood}
+                  className="h-9 w-[130px] rounded bg-error-line text-[13px] font-medium text-white hover:bg-error-line/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-error-line disabled:cursor-not-allowed disabled:bg-disabled disabled:hover:bg-disabled"
+                >
+                  Confirm removal
+                </button>
+              </div>
+            </section>
+          </div>
         ),
       }}
     />

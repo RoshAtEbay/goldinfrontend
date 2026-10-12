@@ -2,13 +2,21 @@
 
 import { TriangleAlert, X } from 'lucide-react'
 import { BID, CUSTOMER, LOT_LABEL, formatUsd } from '@/lib/bids'
-import { MaxBidInput, useMaxBidField } from './max-bid-field'
+import { MaxBidInput, SaveBidButton, useMaxBidField } from './max-bid-field'
 import { OptionPair } from './option-pair'
+import {
+  AcknowledgeCheckbox,
+  OutcomeToggle,
+  RemovalImpact,
+  RemovalWarning,
+  useRemovalConfirm,
+} from './removal-outcome'
 
 const CARD = 'mx-auto w-full rounded-lg border border-line bg-surface shadow-sm'
 
 export function OptionA() {
   const field = useMaxBidField()
+  const confirm = useRemovalConfirm()
 
   return (
     <OptionPair
@@ -56,17 +64,8 @@ export function OptionA() {
             <MaxBidInput
               field={field}
               helper={`Minimum: ${formatUsd(BID.minimumBid)} (current price)`}
+              action={<SaveBidButton field={field} />}
             />
-            <div className="mt-3 flex justify-end">
-              <button
-                type="button"
-                disabled={!field.canSave}
-                onClick={field.save}
-                className="h-[34px] w-[100px] rounded bg-brand text-[13px] font-medium text-white hover:bg-brand/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand disabled:cursor-not-allowed disabled:bg-disabled disabled:hover:bg-disabled"
-              >
-                Save Changes
-              </button>
-            </div>
 
             <hr className="my-5 border-divider" />
 
@@ -74,8 +73,8 @@ export function OptionA() {
               Remove bid
             </p>
             <p className="mt-2 text-[13px] leading-relaxed text-subtle">
-              Permanently removes {CUSTOMER.name} from {LOT_LABEL} #
-              {BID.lotNumber}. The next highest bidder will take their place.
+              Permanently removes this user&apos;s bid from this lot. This may
+              result in the item going unsold or reducing the sale price.
             </p>
             <div className="mt-3 flex justify-end">
               <button
@@ -92,62 +91,60 @@ export function OptionA() {
       right={{
         title: 'Option A — Removal Confirmation',
         description:
-          'CS clicks Remove bid. A second confirmation modal appears before anything is deleted.',
+          'CS clicks Remove bid. A second confirmation modal shows who wins afterwards and requires ticking a checkbox before the bid can be removed.',
         banner: {
           kind: 'cons',
-          text: "One modal doing two different jobs. The danger zone at the bottom may get missed under pressure. Doesn't show full bid context before acting.",
+          text: 'One modal doing two different jobs. The danger zone at the bottom may get missed under pressure. The required checkbox adds one more click to every removal.',
         },
         children: (
-          <section
-            role="alertdialog"
-            aria-labelledby="option-a-confirm-title"
-            className={`${CARD} max-w-[400px]`}
-          >
-            <div className="border-b border-line px-5 py-4">
-              <h3
-                id="option-a-confirm-title"
-                className="text-[16px] font-semibold text-ink"
-              >
-                Remove this bid?
-              </h3>
-            </div>
-            <div className="p-5">
-              <TriangleAlert
-                aria-hidden
-                className="mx-auto size-6 text-amber"
-              />
-              <div className="mt-3 text-center">
-                <p className="mb-2 text-[14px] text-ink">
-                  {CUSTOMER.name} will permanently lose their position on{' '}
-                  {LOT_LABEL} #{BID.lotNumber}.
-                </p>
-                <p className="text-[13px] text-subtle">
-                  The next highest bidder will become the new winner. This
-                  cannot be undone.
-                </p>
-              </div>
-              <div className="mt-4 rounded-md border border-danger-line bg-danger-bg p-3 text-[12px] leading-relaxed text-error-ink">
-                <p>
-                  Current winner: {CUSTOMER.name} — {formatUsd(BID.currentPrice)}
-                </p>
-                <p>Next bidder: [Unknown — engineer must verify]</p>
-              </div>
-              <div className="mt-5 flex justify-end gap-2">
-                <button
-                  type="button"
-                  className="h-9 w-20 rounded border border-button-line bg-surface text-[13px] text-subtle hover:bg-page focus-visible:outline-2 focus-visible:outline-brand"
+          <div className="mx-auto w-full max-w-[400px]">
+            <OutcomeToggle confirm={confirm} />
+            <section
+              role="alertdialog"
+              aria-labelledby="option-a-confirm-title"
+              className={CARD}
+            >
+              <div className="border-b border-line px-5 py-4">
+                <h3
+                  id="option-a-confirm-title"
+                  className="text-[16px] font-semibold text-ink"
                 >
-                  Cancel
-                </button>
-                <button
-                  type="button"
-                  className="h-9 w-[130px] rounded bg-error-line text-[13px] font-medium text-white hover:bg-error-line/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-error-line"
-                >
-                  Yes, remove bid
-                </button>
+                  Remove this bid?
+                </h3>
               </div>
-            </div>
-          </section>
+              <div className="p-5">
+                <TriangleAlert
+                  aria-hidden
+                  className="mx-auto size-6 text-amber"
+                />
+                <div className="mt-3 text-center">
+                  <RemovalWarning lotLabel={`${LOT_LABEL} #${BID.lotNumber}`} />
+                </div>
+                <RemovalImpact
+                  confirm={confirm}
+                  className="mt-4 rounded-md border border-danger-line bg-danger-bg p-3"
+                />
+                <div className="mt-4">
+                  <AcknowledgeCheckbox confirm={confirm} />
+                </div>
+                <div className="mt-5 flex justify-end gap-2">
+                  <button
+                    type="button"
+                    className="h-9 w-20 rounded border border-button-line bg-surface text-[13px] text-subtle hover:bg-page focus-visible:outline-2 focus-visible:outline-brand"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="button"
+                    disabled={!confirm.understood}
+                    className="h-9 w-[130px] rounded bg-error-line text-[13px] font-medium text-white hover:bg-error-line/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-error-line disabled:cursor-not-allowed disabled:bg-disabled disabled:hover:bg-disabled"
+                  >
+                    Yes, remove bid
+                  </button>
+                </div>
+              </div>
+            </section>
+          </div>
         ),
       }}
     />
