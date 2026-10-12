@@ -1,6 +1,6 @@
 import { Pencil, Trash2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { BID, LOT_LABEL, OTHER_BID, formatUsd } from '@/lib/bids'
+import { BID, LOT_LABEL, formatUsd } from '@/lib/bids'
 import { OptionPair } from './option-pair'
 import {
   BidLinkHeader,
@@ -15,23 +15,20 @@ function IconAction({
   label,
   tone,
   engaged,
-  disabled,
   children,
 }: {
   label: string
   tone: 'brand' | 'danger'
   engaged: boolean
-  disabled?: boolean
   children: React.ReactNode
 }) {
   return (
-    <span className="group/icon relative inline-flex">
+    <span className="group/icon inline-flex">
       <button
         type="button"
         aria-label={label}
-        disabled={disabled}
         className={cn(
-          'flex size-6 items-center justify-center rounded transition-colors focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-brand disabled:cursor-not-allowed disabled:opacity-35',
+          'flex size-6 items-center justify-center rounded transition-colors focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-brand',
           tone === 'brand'
             ? 'hover:bg-brand-tint hover:text-brand'
             : 'hover:bg-danger-bg hover:text-error-line',
@@ -44,37 +41,32 @@ function IconAction({
       >
         {children}
       </button>
-      {!disabled && (
-        <span
-          role="tooltip"
-          className={cn(
-            'pointer-events-none absolute -top-7 left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded bg-ink px-1.5 py-0.5 text-[10px] font-medium text-surface transition-opacity group-focus-within/icon:opacity-100 group-hover/icon:opacity-100',
-            engaged ? 'opacity-100' : 'opacity-0',
-          )}
-        >
-          {label}
-        </span>
-      )}
+      <span
+        role="tooltip"
+        className={cn(
+          'pointer-events-none absolute -top-6 right-0 z-10 whitespace-nowrap rounded bg-ink px-1 py-0.5 text-[10px] font-medium text-surface transition-opacity group-focus-within/icon:opacity-100 group-hover/icon:opacity-100',
+          engaged ? 'opacity-100' : 'opacity-0',
+        )}
+      >
+        {label}
+      </span>
     </span>
   )
 }
 
 function RowIcons({
   engaged,
-  disabled,
   tooltipOn,
 }: {
   engaged: boolean
-  disabled?: boolean
   tooltipOn?: 'change' | 'remove'
 }) {
   return (
-    <div className="flex items-center justify-end gap-0.5">
+    <div className="relative flex items-center justify-end gap-0.5">
       <IconAction
         label="Change bid"
         tone="brand"
         engaged={engaged && tooltipOn === 'change'}
-        disabled={disabled}
       >
         <Pencil aria-hidden className="size-3.5" />
       </IconAction>
@@ -82,7 +74,6 @@ function RowIcons({
         label="Remove bid"
         tone="danger"
         engaged={engaged && tooltipOn === 'remove'}
-        disabled={disabled}
       >
         <Trash2 aria-hidden className="size-3.5" />
       </IconAction>
@@ -115,25 +106,12 @@ function IconActionsTable({ hovered }: { hovered: boolean }) {
           <th scope="col" className={TH}>
             # Bids
           </th>
-          <th scope="col" className={cn(TH, 'w-[64px]')}>
+          <th scope="col" className={cn(TH, 'w-[56px] px-1')}>
             <span className="sr-only">Actions</span>
           </th>
         </tr>
       </thead>
       <tbody>
-        <tr className="group bg-surface text-faint">
-          <td className={TD_DATE}>{OTHER_BID.placedAt}</td>
-          <td className={TD}>{OTHER_BID.lotNumber}</td>
-          <td className={TD}>{OTHER_BID.title}</td>
-          <td className={TD}>{formatUsd(OTHER_BID.maxBid)}</td>
-          <td className={TD}>Bid</td>
-          <td className={TD}>{formatUsd(OTHER_BID.currentPrice)}</td>
-          <td className={TD}>{OTHER_BID.winner ? 'Yes' : 'No'}</td>
-          <td className={TD}>{OTHER_BID.bidCount}</td>
-          <td className={cn(TD, 'pl-0')}>
-            <RowIcons engaged={false} disabled />
-          </td>
-        </tr>
         <tr
           data-hovered={hovered}
           className={cn(
@@ -149,7 +127,7 @@ function IconActionsTable({ hovered }: { hovered: boolean }) {
           <td className={TD}>{formatUsd(BID.currentPrice)}</td>
           <td className={TD}>{BID.winner ? 'Yes' : 'No'}</td>
           <td className={TD}>{BID.bidCount}</td>
-          <td className={cn(TD, 'pl-0')}>
+          <td className={cn(TD, 'px-1')}>
             <RowIcons engaged={hovered} tooltipOn="change" />
           </td>
         </tr>
@@ -165,7 +143,7 @@ export function TableOptionC() {
       left={{
         title: 'Option C — Default',
         description:
-          'A pencil (change bid) and a trash can (remove bid) sit at the end of every row, always visible. They stay muted so the table reads clean. On a non-winning bid both are disabled.',
+          'A pencil (change bid) and a trash can (remove bid) sit at the end of every row, always visible. They stay muted so the table reads clean.',
         banner: {
           kind: 'pros',
           text: 'Actions are discoverable without hovering, and the small icons keep the table quiet. Both actions are one click away and more icons can be added later. Works on touch.',
