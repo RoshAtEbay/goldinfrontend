@@ -69,7 +69,7 @@ export function OptionB() {
       left={{
         title: 'Option B — Consolidated Change Bid Panel',
         description:
-          "Purpose-built screen showing full bid context. Two clearly separated action zones. Adam's proposed approach.",
+          "Purpose-built screen showing full bid context. Two clearly separated action zones, with a Save bid button beside the max bid field and a \"Set to current price\" shortcut below it. Adam's proposed approach.",
         banner: {
           kind: 'pros',
           text: 'Full context before acting. Two actions clearly separated. Shows winning status and next bid — the information CS needs to make the right call.',

@@ -31,6 +31,8 @@ export function useMaxBidField(initial: number = BID.initialMaxBid) {
       setValue(formatUsd(parsed))
     },
     reset: () => setValue(formatUsd(saved)),
+    atCurrentPrice: parsed === BID.currentPrice,
+    setToCurrentPrice: () => setValue(formatUsd(BID.currentPrice)),
   }
 }
 
@@ -110,16 +112,26 @@ export function MaxBidInput({
         />
         {action}
       </div>
-      <p
-        id={helperId}
-        className={cn(
-          'mt-1.5',
-          compact ? 'text-[11px]' : 'text-[12px]',
-          field.invalid ? 'text-error-ink' : 'text-faint',
+      <div className="mt-1.5 flex items-start justify-between gap-3">
+        <p
+          id={helperId}
+          className={cn(
+            compact ? 'text-[11px]' : 'text-[12px]',
+            field.invalid ? 'text-error-ink' : 'text-faint',
+          )}
+        >
+          {message}
+        </p>
+        {!compact && !field.atCurrentPrice && (
+          <button
+            type="button"
+            onClick={field.setToCurrentPrice}
+            className="shrink-0 whitespace-nowrap rounded text-[12px] text-brand hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+          >
+            {`Set to current price (${formatUsd(BID.currentPrice)})`}
+          </button>
         )}
-      >
-        {message}
-      </p>
+      </div>
     </div>
   )
 }

@@ -23,7 +23,7 @@ export function OptionA() {
       left={{
         title: 'Option A — Default',
         description:
-          'CS clicks Change bid on a row. Existing max bid adjustment UI with a removal danger zone added below.',
+          'CS clicks Change bid on a row. Existing max bid adjustment UI with a Save bid button beside the field, a "Set to current price" shortcut below it, and a removal danger zone added below that.',
         banner: {
           kind: 'pros',
           text: 'Lowest learning curve. Minimum change to existing patterns. Fast to build and approve.',
