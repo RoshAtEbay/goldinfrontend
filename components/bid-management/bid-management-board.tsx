@@ -6,8 +6,7 @@ import { OptionA } from './option-a'
 import { OptionB } from './option-b'
 import { OptionC } from './option-c'
 import { TableOptionA } from './table-option-a'
-import { TableOptionB } from './table-option-b'
-import { TableOptionC } from './table-option-c'
+import { TableOptionC as TableOptionB } from './table-option-c'
 import { Switcher } from './variant-switcher'
 
 const SURFACES = [
@@ -16,20 +15,29 @@ const SURFACES = [
   { id: 'modal', label: 'Edit bid modal' },
 ] as const
 
-const OPTIONS = [
-  { id: 'a', label: 'Option A' },
-  { id: 'b', label: 'Option B' },
-  { id: 'c', label: 'Option C' },
-] as const
-
 type SurfaceId = (typeof SURFACES)[number]['id']
-type OptionId = (typeof OPTIONS)[number]['id']
+type OptionId = 'a' | 'b' | 'c'
+
+const OPTIONS: Record<
+  Exclude<SurfaceId, 'current'>,
+  readonly { id: OptionId; label: string }[]
+> = {
+  table: [
+    { id: 'a', label: 'Option A' },
+    { id: 'b', label: 'Option B' },
+  ],
+  modal: [
+    { id: 'a', label: 'Option A' },
+    { id: 'b', label: 'Option B' },
+    { id: 'c', label: 'Option C' },
+  ],
+}
 
 const VIEWS: Record<
   Exclude<SurfaceId, 'current'>,
-  Record<OptionId, () => React.JSX.Element>
+  Partial<Record<OptionId, () => React.JSX.Element>>
 > = {
-  table: { a: TableOptionA, b: TableOptionB, c: TableOptionC },
+  table: { a: TableOptionA, b: TableOptionB },
   modal: { a: OptionA, b: OptionB, c: OptionC },
 }
 
@@ -43,7 +51,9 @@ export function BidManagementBoard() {
   })
 
   const View =
-    surface === 'current' ? CurrentState : VIEWS[surface][options[surface]]
+    surface === 'current'
+      ? CurrentState
+      : (VIEWS[surface][options[surface]] ?? CurrentState)
 
   return (
     <main className="min-h-screen bg-page px-6 py-8">
@@ -52,7 +62,7 @@ export function BidManagementBoard() {
           <Switcher
             label={`${surface === 'table' ? 'Bids table' : 'Edit bid modal'} option`}
             prefix="option"
-            options={OPTIONS}
+            options={OPTIONS[surface]}
             value={options[surface]}
             onChange={(id) => setOptions((prev) => ({ ...prev, [surface]: id }))}
             controls={PANEL_ID}

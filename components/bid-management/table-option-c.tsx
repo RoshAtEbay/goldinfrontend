@@ -134,7 +134,7 @@ export function TableOptionC() {
     <OptionPair
       sideBySideFrom="xl"
       left={{
-        title: 'Option C — Default',
+        title: 'Option B — Default',
         description:
           'A "Change bid" link sits right after the max bid value, and a small trash icon (remove bid) sits at the end of the row. Both are always visible, and the trash stays muted so the table reads clean.',
         banner: {
@@ -148,7 +148,7 @@ export function TableOptionC() {
         ),
       }}
       right={{
-        title: 'Option C — Row hovered / icon focused',
+        title: 'Option B — Row hovered / icon focused',
         description:
           'The row highlights, the Change bid link underlines, the trash turns red, and a tooltip names the remove action. Labels are also exposed as accessible names.',
         banner: {
