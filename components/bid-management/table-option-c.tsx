@@ -23,7 +23,7 @@ function IconAction({
   children: React.ReactNode
 }) {
   return (
-    <span className="group/icon inline-flex">
+    <span className="group/icon relative inline-flex">
       <button
         type="button"
         aria-label={label}
@@ -44,7 +44,7 @@ function IconAction({
       <span
         role="tooltip"
         className={cn(
-          'pointer-events-none absolute -top-6 right-0 z-10 whitespace-nowrap rounded bg-ink px-1 py-0.5 text-[10px] font-medium text-surface transition-opacity group-focus-within/icon:opacity-100 group-hover/icon:opacity-100',
+          'pointer-events-none absolute right-full top-1/2 z-10 mr-1 -translate-y-1/2 whitespace-nowrap rounded bg-ink px-1.5 py-0.5 text-[10px] font-medium text-surface transition-opacity group-focus-within/icon:opacity-100 group-hover/icon:opacity-100',
           engaged ? 'opacity-100' : 'opacity-0',
         )}
       >
@@ -56,16 +56,7 @@ function IconAction({
 
 function RowActions({ engaged }: { engaged: boolean }) {
   return (
-    <div className="relative flex items-center justify-end gap-1">
-      <button
-        type="button"
-        className={cn(
-          'whitespace-nowrap rounded px-1.5 py-1 text-[12px] text-brand transition-colors hover:bg-brand-tint focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-brand',
-          engaged && 'bg-brand-tint',
-        )}
-      >
-        Change bid
-      </button>
+    <div className="relative flex items-center justify-end">
       <IconAction label="Remove bid" tone="danger" engaged={engaged}>
         <Trash2 aria-hidden className="size-3.5" />
       </IconAction>
@@ -98,7 +89,7 @@ function IconActionsTable({ hovered }: { hovered: boolean }) {
           <th scope="col" className={TH}>
             # Bids
           </th>
-          <th scope="col" className={cn(TH, 'w-[104px] px-1')}>
+          <th scope="col" className={cn(TH, 'w-[104px] min-w-[104px] px-1')}>
             <span className="sr-only">Actions</span>
           </th>
         </tr>
@@ -115,7 +106,17 @@ function IconActionsTable({ hovered }: { hovered: boolean }) {
           <td className={TD}>{BID.lotNumber}</td>
           <td className={cn(TD, 'text-brand')}>{LOT_LABEL}</td>
           <td className={TD}>{formatUsd(BID.initialMaxBid)}</td>
-          <td className={cn(TD, 'text-brand')}>Bid</td>
+          <td className={TD}>
+            <button
+              type="button"
+              className={cn(
+                'whitespace-nowrap rounded px-1 py-0.5 text-[12px] text-brand transition-colors hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand',
+                hovered && 'underline underline-offset-2',
+              )}
+            >
+              Change bid
+            </button>
+          </td>
           <td className={TD}>{formatUsd(BID.currentPrice)}</td>
           <td className={TD}>{BID.winner ? 'Yes' : 'No'}</td>
           <td className={TD}>{BID.bidCount}</td>
@@ -135,10 +136,10 @@ export function TableOptionC() {
       left={{
         title: 'Option C — Default',
         description:
-          'A "Change bid" text button and a trash icon (remove bid) sit at the end of every row, always visible. The trash stays muted so the table reads clean.',
+          'A "Change bid" link sits right after the max bid value, and a small trash icon (remove bid) sits at the end of the row. Both are always visible, and the trash stays muted so the table reads clean.',
         banner: {
           kind: 'pros',
-          text: 'Actions are discoverable without hovering. The labeled Change bid button is unambiguous, and the small trash icon keeps Remove from dominating the row. Works on touch.',
+          text: 'Change bid lives next to the value it edits and is labeled, so it is unambiguous. The small trash icon keeps Remove from dominating the row. Both are discoverable without hovering and work on touch.',
         },
         children: (
           <TableOptionFrame>
@@ -149,10 +150,10 @@ export function TableOptionC() {
       right={{
         title: 'Option C — Row hovered / icon focused',
         description:
-          'The row highlights, Change bid gets a blue wash, the trash turns red, and a tooltip names the remove action. Labels are also exposed as accessible names.',
+          'The row highlights, the Change bid link underlines, the trash turns red, and a tooltip names the remove action. Labels are also exposed as accessible names.',
         banner: {
           kind: 'cons',
-          text: 'The trash is still icon-only, so CS must recognize it (the "Remove bid" label only appears on hover or focus). Adds a wider column to an already wide table.',
+          text: 'The trash is icon-only, so CS must recognize it (the "Remove bid" label only appears on hover or focus). Change bid and Remove sit at opposite ends of the row, so the two actions are not grouped.',
         },
         children: (
           <TableOptionFrame>
