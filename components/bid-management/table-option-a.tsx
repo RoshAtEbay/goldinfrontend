@@ -2,8 +2,6 @@ import { cn } from '@/lib/utils'
 import { BID, LOT_LABEL, formatUsd } from '@/lib/bids'
 import { OptionPair } from './option-pair'
 import {
-  BidLinkHeader,
-  ChangeBidButton,
   DateTimeHeader,
   ROW,
   TD,
@@ -12,49 +10,61 @@ import {
   TableOptionFrame,
 } from './table-option-frame'
 
-function ActionsColumnTable({ active }: { active: boolean }) {
+function ChangeBidLink({ active }: { active: boolean }) {
   return (
-    <table className="w-full min-w-[640px] border-collapse text-left text-[12px]">
+    <button
+      type="button"
+      data-state={active ? 'active' : 'default'}
+      className={cn(
+        'whitespace-nowrap rounded-sm px-1 py-0.5 text-[12px] text-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand',
+        active ? 'font-medium underline underline-offset-2' : 'hover:underline',
+      )}
+    >
+      Change bid
+    </button>
+  )
+}
+
+function OriginalTable({ active }: { active: boolean }) {
+  return (
+    <table className="w-full min-w-[620px] border-collapse text-left text-[12px]">
       <thead>
         <tr className="border-b border-divider">
-          <DateTimeHeader className="w-[140px]" />
-          <th scope="col" className={cn(TH, 'w-[60px]')}>
+          <DateTimeHeader />
+          <th scope="col" className={cn(TH, 'text-center')}>
             Lot Number
           </th>
-          <th scope="col" className={cn(TH, 'w-[90px]')}>
+          <th scope="col" className={TH}>
             Title
           </th>
-          <th scope="col" className={cn(TH, 'w-[70px]')}>
-            Bid Amount
+          <th scope="col" className={TH}>
+            Max Bid
           </th>
-          <BidLinkHeader className="w-[40px]" />
-          <th scope="col" className={cn(TH, 'w-[80px]')}>
+          <th scope="col" className={cn(TH, 'text-center')}>
             Current Price
           </th>
-          <th scope="col" className={cn(TH, 'w-[55px]')}>
+          <th scope="col" className={cn(TH, 'text-center')}>
             Winner
           </th>
-          <th scope="col" className={cn(TH, 'w-[50px]')}>
+          <th scope="col" className={cn(TH, 'text-right')}>
             # Bids
-          </th>
-          <th scope="col" className={cn(TH, 'w-[80px]')}>
-            <span className="sr-only">Actions</span>
           </th>
         </tr>
       </thead>
       <tbody>
         <tr className={cn(ROW, 'text-ink', active && 'bg-row-tint')}>
           <td className={TD_DATE}>{BID.placedAt}</td>
-          <td className={TD}>{BID.lotNumber}</td>
+          <td className={cn(TD, 'text-center text-brand')}>{BID.lotNumber}</td>
           <td className={cn(TD, 'text-brand')}>{LOT_LABEL}</td>
-          <td className={TD}>{formatUsd(BID.initialMaxBid)}</td>
-          <td className={cn(TD, 'text-brand')}>Bid</td>
-          <td className={TD}>{formatUsd(BID.currentPrice)}</td>
-          <td className={TD}>{BID.winner ? 'Yes' : 'No'}</td>
-          <td className={TD}>{BID.bidCount}</td>
-          <td className={cn(TD, 'text-right')}>
-            <ChangeBidButton active={active} />
+          <td className={TD}>
+            <div className="flex items-center gap-1">
+              <span>{formatUsd(BID.initialMaxBid)}</span>
+              <ChangeBidLink active={active} />
+            </div>
           </td>
+          <td className={cn(TD, 'text-center')}>{formatUsd(BID.currentPrice)}</td>
+          <td className={cn(TD, 'text-center')}>{BID.winner ? 'Yes' : 'No'}</td>
+          <td className={cn(TD, 'text-right text-brand')}>{BID.bidCount}</td>
         </tr>
       </tbody>
     </table>
@@ -67,28 +77,29 @@ export function TableOptionA() {
       sideBySideFrom="xl"
       left={{
         title: 'Option A — Default',
-        description: 'Actions column always visible at the far right of every bid row.',
+        description:
+          "Adam's original: a plain Change bid link sits right beside the Max Bid value. No new column.",
         banner: {
           kind: 'pros',
-          text: 'Always visible. No hunting. Standard admin table pattern CS reps already know.',
+          text: "Matches Adam's mock exactly. No new column, and the edit sits next to the value it changes. Lowest build effort.",
         },
         children: (
           <TableOptionFrame>
-            <ActionsColumnTable active={false} />
+            <OriginalTable active={false} />
           </TableOptionFrame>
         ),
       }}
       right={{
         title: 'Option A — Active',
         description:
-          'CS clicks Change bid. Button gets a pressed/active state before the modal opens.',
+          'CS clicks Change bid. The link underlines and the row is highlighted before the modal opens.',
         banner: {
           kind: 'cons',
-          text: "Adds a column to an already wide table. The column has no header, so nothing tells CS what actions are available until they see the button.",
+          text: 'A text link is easy to miss in a dense table, and there is no obvious home on the row for a Remove action.',
         },
         children: (
           <TableOptionFrame>
-            <ActionsColumnTable active />
+            <OriginalTable active />
           </TableOptionFrame>
         ),
       }}

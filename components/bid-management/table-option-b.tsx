@@ -77,10 +77,10 @@ export function TableOptionB() {
       left={{
         title: 'Option B — Default',
         description:
-          "Change bid button lives inside the Bid Amount cell, next to the dollar value. Column renamed to Max Bid. Adam's proposed approach.",
+          'Same placement as Option A, but Change bid is a bordered button inside the Max Bid cell, so it reads as an action.',
         banner: {
           kind: 'pros',
-          text: "Action lives next to the data it affects. Logical connection between the value and the edit. Adam's proposed design — easy to get approved.",
+          text: 'Action lives next to the data it affects, and the button styling makes it clearly clickable. Easier to spot than a text link.',
         },
         children: (
           <TableOptionFrame>
