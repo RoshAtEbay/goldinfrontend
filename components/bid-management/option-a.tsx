@@ -69,17 +69,17 @@ export function OptionA() {
 
             <hr className="my-5 border-divider" />
 
-            <h4 className="text-[15px] font-semibold text-ink">Remove bid</h4>
-            <p className="mt-2 text-[14px] leading-relaxed text-subtle">
+            <h4 className="text-[13px] font-semibold text-ink">Remove bid</h4>
+            <p className="mt-1 text-[12px] leading-relaxed text-subtle">
               Permanently removes this user&apos;s bid from this lot. This may
               result in the item going unsold or reducing the sale price.
             </p>
-            <div className="mt-4 flex justify-end">
+            <div className="mt-3 flex justify-end">
               <button
                 type="button"
-                className="flex h-10 items-center justify-center gap-2 rounded-md border border-button-line bg-surface px-4 text-[14px] text-error-line hover:bg-danger-bg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-error-line"
+                className="flex h-9 items-center justify-center gap-1.5 rounded border border-button-line bg-surface px-3 text-[13px] text-error-line hover:bg-danger-bg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-error-line"
               >
-                <Trash2 aria-hidden className="size-4" />
+                <Trash2 aria-hidden className="size-3.5" />
                 Remove bid
               </button>
             </div>
