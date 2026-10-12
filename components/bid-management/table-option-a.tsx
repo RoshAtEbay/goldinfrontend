@@ -37,8 +37,8 @@ function ActionsColumnTable({ active }: { active: boolean }) {
           <th scope="col" className={cn(TH, 'w-[50px]')}>
             # Bids
           </th>
-          <th scope="col" className={cn(TH, 'w-[80px] text-right')}>
-            Actions
+          <th scope="col" className={cn(TH, 'w-[80px]')}>
+            <span className="sr-only">Actions</span>
           </th>
         </tr>
       </thead>
@@ -84,7 +84,7 @@ export function TableOptionA() {
           'CS clicks Change bid. Button gets a pressed/active state before the modal opens.',
         banner: {
           kind: 'cons',
-          text: "Adds a column to an already wide table. ACTIONS label is generic — doesn't tell CS what actions are available until they click.",
+          text: "Adds a column to an already wide table. The column has no header, so nothing tells CS what actions are available until they see the button.",
         },
         children: (
           <TableOptionFrame>
