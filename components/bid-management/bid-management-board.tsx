@@ -11,7 +11,7 @@ export function BidManagementBoard() {
 
   return (
     <main className="min-h-screen bg-page px-6 py-10">
-      <div className="mx-auto grid w-full max-w-[1320px] grid-cols-1 gap-x-8 gap-y-12 lg:grid-cols-[minmax(0,1.8fr)_minmax(0,1fr)] lg:gap-y-0">
+      <div className="mx-auto grid w-full max-w-[1640px] grid-cols-1 gap-x-8 gap-y-12 lg:grid-cols-[minmax(0,1fr)_380px] lg:gap-y-0">
         <div className="min-w-0 lg:row-span-2 lg:grid lg:grid-cols-[minmax(0,1fr)] lg:grid-rows-subgrid">
           <PanelLabel
             title="User Profile — Bids Tab"

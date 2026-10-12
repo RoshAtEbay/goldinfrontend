@@ -19,7 +19,7 @@ import {
   formatUsd,
 } from '@/lib/bids'
 
-const HEAD = 'h-10 whitespace-nowrap pr-2 text-[12px] font-medium uppercase text-faint'
+const HEAD = 'h-10 pr-2 text-[12px] font-medium uppercase text-faint'
 
 function InfoBlock({
   label,
@@ -85,7 +85,7 @@ export function UserProfileBids({ maxBid }: { maxBid: number }) {
           </button>
         </div>
 
-        <div className="mt-5 flex flex-wrap gap-x-10 gap-y-4 whitespace-nowrap">
+        <div className="mt-5 flex flex-wrap gap-x-10 gap-y-4">
           <InfoBlock label="Contact Info">
             <p>Email: {CUSTOMER.email}</p>
             <p>Phone: {CUSTOMER.phone}</p>
@@ -104,9 +104,9 @@ export function UserProfileBids({ maxBid }: { maxBid: number }) {
       <div className="rounded-lg bg-surface shadow-sm">
         <nav
           aria-label="Customer sections"
-          className="overflow-x-auto border-b border-line px-5"
+          className="border-b border-line px-5"
         >
-          <ul className="flex min-w-max justify-between gap-5">
+          <ul className="flex flex-wrap justify-center gap-x-6">
             {PROFILE_TABS.map((tab) => {
               const active = tab === 'Bids'
               return (
@@ -164,8 +164,8 @@ export function UserProfileBids({ maxBid }: { maxBid: number }) {
             />
           </div>
 
-          <div className="mt-3 overflow-x-auto rounded-md border border-line">
-            <table className="w-full min-w-[640px] border-collapse text-left text-[13px]">
+          <div className="mt-3 rounded-md border border-line">
+            <table className="w-full border-collapse text-left text-[13px]">
               <thead>
                 <tr className="border-b border-line">
                   <th scope="col" className={cn(HEAD, 'pl-3')}>
