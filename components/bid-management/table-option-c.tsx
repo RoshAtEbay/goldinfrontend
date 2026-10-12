@@ -1,4 +1,4 @@
-import { Pencil, Trash2 } from 'lucide-react'
+import { Trash2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { BID, LOT_LABEL, formatUsd } from '@/lib/bids'
 import { OptionPair } from './option-pair'
@@ -54,27 +54,19 @@ function IconAction({
   )
 }
 
-function RowIcons({
-  engaged,
-  tooltipOn,
-}: {
-  engaged: boolean
-  tooltipOn?: 'change' | 'remove'
-}) {
+function RowActions({ engaged }: { engaged: boolean }) {
   return (
-    <div className="relative flex items-center justify-end gap-0.5">
-      <IconAction
-        label="Change bid"
-        tone="brand"
-        engaged={engaged && tooltipOn === 'change'}
+    <div className="relative flex items-center justify-end gap-1">
+      <button
+        type="button"
+        className={cn(
+          'whitespace-nowrap rounded px-1.5 py-1 text-[12px] text-brand transition-colors hover:bg-brand-tint focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-brand',
+          engaged && 'bg-brand-tint',
+        )}
       >
-        <Pencil aria-hidden className="size-3.5" />
-      </IconAction>
-      <IconAction
-        label="Remove bid"
-        tone="danger"
-        engaged={engaged && tooltipOn === 'remove'}
-      >
+        Change bid
+      </button>
+      <IconAction label="Remove bid" tone="danger" engaged={engaged}>
         <Trash2 aria-hidden className="size-3.5" />
       </IconAction>
     </div>
@@ -106,7 +98,7 @@ function IconActionsTable({ hovered }: { hovered: boolean }) {
           <th scope="col" className={TH}>
             # Bids
           </th>
-          <th scope="col" className={cn(TH, 'w-[56px] px-1')}>
+          <th scope="col" className={cn(TH, 'w-[104px] px-1')}>
             <span className="sr-only">Actions</span>
           </th>
         </tr>
@@ -128,7 +120,7 @@ function IconActionsTable({ hovered }: { hovered: boolean }) {
           <td className={TD}>{BID.winner ? 'Yes' : 'No'}</td>
           <td className={TD}>{BID.bidCount}</td>
           <td className={cn(TD, 'px-1')}>
-            <RowIcons engaged={hovered} tooltipOn="change" />
+            <RowActions engaged={hovered} />
           </td>
         </tr>
       </tbody>
@@ -143,10 +135,10 @@ export function TableOptionC() {
       left={{
         title: 'Option C — Default',
         description:
-          'A pencil (change bid) and a trash can (remove bid) sit at the end of every row, always visible. They stay muted so the table reads clean.',
+          'A "Change bid" text button and a trash icon (remove bid) sit at the end of every row, always visible. The trash stays muted so the table reads clean.',
         banner: {
           kind: 'pros',
-          text: 'Actions are discoverable without hovering, and the small icons keep the table quiet. Both actions are one click away and more icons can be added later. Works on touch.',
+          text: 'Actions are discoverable without hovering. The labeled Change bid button is unambiguous, and the small trash icon keeps Remove from dominating the row. Works on touch.',
         },
         children: (
           <TableOptionFrame>
@@ -157,10 +149,10 @@ export function TableOptionC() {
       right={{
         title: 'Option C — Row hovered / icon focused',
         description:
-          'The row highlights, the icons take on color (blue pencil, red trash), and a tooltip names the action. Labels are also exposed as accessible names.',
+          'The row highlights, Change bid gets a blue wash, the trash turns red, and a tooltip names the remove action. Labels are also exposed as accessible names.',
         banner: {
           kind: 'cons',
-          text: 'Icon-only buttons rely on CS recognizing the pencil and trash icons, and the text label only appears on hover or focus. Adds a narrow column to an already wide table.',
+          text: 'The trash is still icon-only, so CS must recognize it (the "Remove bid" label only appears on hover or focus). Adds a wider column to an already wide table.',
         },
         children: (
           <TableOptionFrame>
