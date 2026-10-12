@@ -56,7 +56,7 @@ export function OptionPair({
   )
 }
 
-function Banner({ kind, text }: { kind: 'pros' | 'cons'; text: string }) {
+export function Banner({ kind, text }: { kind: 'pros' | 'cons'; text: string }) {
   const pros = kind === 'pros'
   return (
     <p
