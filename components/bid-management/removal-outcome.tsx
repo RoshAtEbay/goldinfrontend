@@ -110,11 +110,7 @@ export function RemovalImpact({
           </div>
         ))}
       </dl>
-      {outcome.bid === null && (
-        <p className="mt-3 text-[12px] leading-relaxed text-error-ink">
-          No other bids remain, so this lot will have no winner.
-        </p>
-      )}
+
     </div>
   )
 }
