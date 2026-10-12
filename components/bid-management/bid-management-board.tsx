@@ -5,6 +5,7 @@ import { BID } from '@/lib/bids'
 import { PanelLabel } from './panel-label'
 import { UserProfileBids } from './user-profile-bids'
 import { EditBidModal } from './edit-bid-modal'
+import { ModalBackdrop } from './modal-backdrop'
 
 export function BidManagementBoard() {
   const [maxBid, setMaxBid] = useState(BID.initialMaxBid)
@@ -30,7 +31,9 @@ export function BidManagementBoard() {
             whenToUse="CS can reduce a max bid amount. They cannot remove a bid entirely — that requires a manual database change by an engineer."
           />
           <div className="self-start">
-            <EditBidModal onConfirm={setMaxBid} />
+            <ModalBackdrop>
+              <EditBidModal onConfirm={setMaxBid} />
+            </ModalBackdrop>
             <p
               role="note"
               className="mt-4 rounded-md bg-error-bg px-3.5 py-3 text-[13px] leading-relaxed text-error-ink"

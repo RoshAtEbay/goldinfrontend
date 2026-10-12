@@ -31,10 +31,10 @@ export function EditBidModal({
     <section
       role="dialog"
       aria-labelledby={titleId}
-      className="rounded-lg border border-line bg-surface shadow-sm"
+      className="flex w-full flex-col rounded-xl bg-surface shadow-lg"
     >
-      <div className="relative flex items-center justify-center border-b border-line px-5 py-3.5">
-        <h3 id={titleId} className="text-[14px] font-semibold text-ink">
+      <div className="relative flex h-[52px] shrink-0 items-center justify-center border-b border-line px-10">
+        <h3 id={titleId} className="whitespace-nowrap text-[12px] font-semibold text-ink">
           Edit maximum bid on behalf of {CUSTOMER.name}
         </h3>
         <button
@@ -47,8 +47,8 @@ export function EditBidModal({
         </button>
       </div>
 
-      <div className="px-5 pb-8 pt-6">
-        <div className="flex flex-col gap-2 text-[13px] text-ink">
+      <div className="flex-1 px-5 pt-5">
+        <div className="flex flex-col gap-2 text-[12px] text-ink">
           <p>Title: {BID.title}</p>
           <div className="flex flex-col gap-1">
             <p>Current Price: {formatUsd(BID.currentPrice)}</p>
@@ -76,7 +76,7 @@ export function EditBidModal({
               if (parsed !== null) setValue(formatUsd(parsed))
             }}
             className={cn(
-              'mt-1.5 h-9 w-36 rounded border bg-surface px-3 text-[13px] text-ink outline-none focus-visible:border-brand focus-visible:ring-2 focus-visible:ring-brand/20',
+              'mt-1.5 h-9 w-[92px] rounded border bg-surface px-3 text-[13px] text-ink outline-none focus-visible:border-brand focus-visible:ring-2 focus-visible:ring-brand/20',
               invalid ? 'border-error-line' : 'border-field-line',
             )}
           />
@@ -92,7 +92,7 @@ export function EditBidModal({
         </div>
       </div>
 
-      <div className="flex justify-end gap-2 border-t border-line px-5 py-3">
+      <div className="flex h-14 shrink-0 items-center justify-end gap-2 border-t border-line px-5">
         <button
           type="button"
           disabled={!canPlace}
