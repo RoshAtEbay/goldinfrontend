@@ -3,31 +3,34 @@
 import type { KeyboardEvent } from 'react'
 import { cn } from '@/lib/utils'
 
-export const VARIANTS = [
-  { id: 'current', label: 'Current' },
-  { id: 'a', label: 'Option A' },
-  { id: 'b', label: 'Option B' },
-  { id: 'c', label: 'Option C' },
-] as const
+export type SwitcherOption<T extends string> = {
+  id: T
+  label: string
+}
 
-export type VariantId = (typeof VARIANTS)[number]['id']
-
-export const tabId = (id: VariantId) => `variant-tab-${id}`
-export const panelId = (id: VariantId) => `variant-panel-${id}`
-
-export function VariantSwitcher({
+export function Switcher<T extends string>({
+  label,
+  prefix,
+  options,
   value,
   onChange,
+  controls,
 }: {
-  value: VariantId
-  onChange: (id: VariantId) => void
+  label: string
+  prefix: string
+  options: readonly SwitcherOption<T>[]
+  value: T
+  onChange: (id: T) => void
+  controls: string
 }) {
+  const tabId = (id: T) => `${prefix}-tab-${id}`
+
   const move = (event: KeyboardEvent<HTMLButtonElement>, index: number) => {
     const step =
       event.key === 'ArrowRight' ? 1 : event.key === 'ArrowLeft' ? -1 : 0
     if (step === 0) return
     event.preventDefault()
-    const next = VARIANTS[(index + step + VARIANTS.length) % VARIANTS.length]
+    const next = options[(index + step + options.length) % options.length]
     onChange(next.id)
     document.getElementById(tabId(next.id))?.focus()
   }
@@ -35,30 +38,30 @@ export function VariantSwitcher({
   return (
     <div
       role="tablist"
-      aria-label="Design option"
+      aria-label={label}
       className="flex items-center gap-1 rounded-full border border-line bg-surface p-1 shadow-sm"
     >
-      {VARIANTS.map((variant, index) => {
-        const selected = variant.id === value
+      {options.map((option, index) => {
+        const selected = option.id === value
         return (
           <button
-            key={variant.id}
-            id={tabId(variant.id)}
+            key={option.id}
+            id={tabId(option.id)}
             type="button"
             role="tab"
             aria-selected={selected}
-            aria-controls={panelId(variant.id)}
+            aria-controls={controls}
             tabIndex={selected ? 0 : -1}
-            onClick={() => onChange(variant.id)}
+            onClick={() => onChange(option.id)}
             onKeyDown={(event) => move(event, index)}
             className={cn(
-              'h-8 rounded-full px-4 text-[13px] font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand',
+              'h-8 whitespace-nowrap rounded-full px-4 text-[13px] font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand',
               selected
                 ? 'bg-ink text-white'
                 : 'text-subtle hover:bg-page hover:text-ink',
             )}
           >
-            {variant.label}
+            {option.label}
           </button>
         )
       })}

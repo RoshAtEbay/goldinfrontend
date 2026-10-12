@@ -36,6 +36,8 @@
   --color-success: #16a34a;
   --color-expand-bg: #f0f7ff;
   --color-expand-line: #bfdbfe;
+  --color-btn-ink: #374151;
+  --color-row-tint: #f8faff;
 }
 
 @theme inline {
