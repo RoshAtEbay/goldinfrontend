@@ -10,7 +10,7 @@ import {
   MIN_BID_HELPER,
   OutcomeToggle,
   REMOVE_BID_COPY,
-  RemovalImpact,
+  RemovalImpactCard,
   RemovalWarning,
   useRemovalConfirm,
 } from './removal-outcome'
@@ -127,12 +127,7 @@ export function OptionB() {
                 className="mt-4"
               />
 
-              <div className="mb-5 mt-4 rounded-md bg-context px-4 py-3">
-                <p className="text-[14px] font-semibold text-ink">
-                  {LOT_LABEL} — Lot #{BID.lotNumber}
-                </p>
-                <RemovalImpact confirm={confirm} className="mt-3" />
-              </div>
+              <RemovalImpactCard confirm={confirm} className="mb-5 mt-4" />
 
               <div className="mb-5">
                 <AcknowledgeCheckbox confirm={confirm} />

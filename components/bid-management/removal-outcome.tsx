@@ -119,6 +119,23 @@ export function RemovalImpact({
   )
 }
 
+export function RemovalImpactCard({
+  confirm,
+  className,
+}: {
+  confirm: ReturnType<typeof useRemovalConfirm>
+  className?: string
+}) {
+  return (
+    <div className={cn('rounded-md bg-context px-4 py-3', className)}>
+      <p className="text-[14px] font-semibold text-ink">
+        {LOT_LABEL} — Lot #{BID.lotNumber}
+      </p>
+      <RemovalImpact confirm={confirm} className="mt-3" />
+    </div>
+  )
+}
+
 export function RemovalWarning({
   lotLabel,
   className,
