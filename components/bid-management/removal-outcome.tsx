@@ -179,8 +179,8 @@ export function AcknowledgeCheckbox({ confirm }: { confirm: RemovalConfirm }) {
         className="mt-0.5 size-4 shrink-0 accent-error-line"
       />
       <label htmlFor={id} className="text-[13px] leading-snug text-ink">
-        I understand this bid will be permanently removed and this cannot be
-        undone.
+  I understand this bid will be permanently removed, and this action cannot
+  be undone.
       </label>
     </div>
   )
