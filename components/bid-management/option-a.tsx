@@ -97,48 +97,60 @@ export function OptionA() {
         right={{
           title: 'Option A — Removal Confirmation',
           description:
-            'CS clicks Remove bid. A second confirmation modal shows who wins afterwards and requires ticking a checkbox before the bid can be removed.',
+            'CS clicks Remove bid. A separate "Confirm bid removal" modal shows who wins afterwards and requires ticking a checkbox before the bid can be removed.',
           banner: {
             kind: 'cons',
-            text: 'One modal doing two different jobs. The Remove bid section at the bottom is quiet and may get missed under pressure. The required checkbox adds one more click to every removal.',
+            text: 'The Remove bid section at the bottom of the edit modal is quiet and may get missed under pressure. The required checkbox adds one more click to every removal.',
           },
           children: (
-            <div className="mx-auto w-full max-w-[400px]">
+            <div className="mx-auto w-full max-w-[460px]">
               <OutcomeToggle confirm={confirm} />
               <section
                 role="alertdialog"
                 aria-labelledby="option-a-confirm-title"
-                className={CARD}
+                className={`${CARD} p-6`}
               >
-                <div className="border-b border-line px-5 py-4">
+                <div className="flex items-start justify-between gap-4">
                   <h3
                     id="option-a-confirm-title"
-                    className="text-[16px] font-semibold text-ink"
+                    className="text-[15px] font-semibold text-ink"
                   >
-                    Remove this bid?
+                    Confirm bid removal
                   </h3>
+                  <button
+                    type="button"
+                    aria-label="Close"
+                    className="-mr-1 -mt-1 flex size-7 shrink-0 items-center justify-center rounded text-faint hover:text-ink focus-visible:outline-2 focus-visible:outline-brand"
+                  >
+                    <X aria-hidden className="size-4" />
+                  </button>
                 </div>
-                <div className="p-5">
-                  <RemovalWarning lotLabel={`${LOT_LABEL} #${BID.lotNumber}`} />
-                <RemovalImpactCard confirm={confirm} className="mt-4" />
-                  <div className="mt-4">
-                    <AcknowledgeCheckbox confirm={confirm} />
-                  </div>
-                  <div className="mt-5 flex justify-end gap-2">
-                    <button
-                      type="button"
-                      className="h-9 w-20 rounded border border-button-line bg-surface text-[13px] text-subtle hover:bg-page focus-visible:outline-2 focus-visible:outline-brand"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      type="button"
-                      disabled={!confirm.understood}
-                      className="h-9 w-[130px] rounded bg-error-line text-[13px] font-medium text-white hover:bg-error-line/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-error-line disabled:cursor-not-allowed disabled:bg-disabled disabled:hover:bg-disabled"
-                    >
-                      Yes, remove bid
-                    </button>
-                  </div>
+
+                <RemovalWarning
+                  lotLabel={`${LOT_LABEL} #${BID.lotNumber}`}
+                  className="mt-4"
+                />
+
+                <RemovalImpactCard confirm={confirm} className="mb-5 mt-4" />
+
+                <div className="mb-5">
+                  <AcknowledgeCheckbox confirm={confirm} />
+                </div>
+
+                <div className="flex justify-end gap-2">
+                  <button
+                    type="button"
+                    className="h-9 w-20 rounded border border-button-line bg-surface text-[13px] text-subtle hover:bg-page focus-visible:outline-2 focus-visible:outline-brand"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="button"
+                    disabled={!confirm.understood}
+                    className="h-9 w-[130px] rounded bg-error-line text-[13px] font-medium text-white hover:bg-error-line/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-error-line disabled:cursor-not-allowed disabled:bg-disabled disabled:hover:bg-disabled"
+                  >
+                    Confirm removal
+                  </button>
                 </div>
               </section>
             </div>
