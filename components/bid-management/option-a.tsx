@@ -30,7 +30,7 @@ function EditBidDialog({ field }: { field: MaxBidField }) {
     <section
       role="dialog"
       aria-label={`Change bid on behalf of ${CUSTOMER.name}`}
-      className={`${CARD} max-w-[480px] p-6`}
+      className={`${CARD} max-w-[500px] p-6`}
     >
       <div className="flex items-start justify-between gap-4">
         <h3 className="text-[15px] font-semibold text-ink">
@@ -48,29 +48,36 @@ function EditBidDialog({ field }: { field: MaxBidField }) {
 
       <BidSummaryCard maxBid={field.saved} className="mb-5 mt-4" />
 
-      <p className="mb-2 text-[12px] font-semibold uppercase tracking-wide text-faint">
-        Adjust max bid
-      </p>
-      <MaxBidInput
-        field={field}
-        helper={MIN_BID_HELPER}
-        action={<SaveBidButton field={field} />}
-      />
+      <hr className="border-divider" />
 
-      <hr className="my-5 border-divider" />
+      <div className="pt-4">
+        <p className="mb-2 text-[13px] font-semibold text-ink">
+          Adjust max bid
+        </p>
+        <MaxBidInput
+          field={field}
+          helper={MIN_BID_HELPER}
+          ariaLabel="New max bid"
+          action={<SaveBidButton field={field} />}
+        />
+      </div>
 
-      <h4 className="text-[13px] font-semibold text-ink">Remove bid</h4>
-      <p className="mt-1 text-[12px] leading-relaxed text-subtle">
-        {REMOVE_BID_COPY}
-      </p>
-      <div className="mt-3 flex justify-end">
-        <button
-          type="button"
-          className="flex h-9 items-center justify-center gap-1.5 rounded border border-button-line bg-surface px-3 text-[13px] text-error-line hover:bg-danger-bg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-error-line"
-        >
-          <Trash2 aria-hidden className="size-3.5" />
-          Remove bid
-        </button>
+      <hr className="my-4 border-divider" />
+
+      <div className="pb-1">
+        <p className="mb-1.5 text-[13px] font-semibold text-ink">Remove bid</p>
+        <p className="mb-3 text-[13px] leading-relaxed text-subtle">
+          {REMOVE_BID_COPY}
+        </p>
+        <div className="flex justify-end">
+          <button
+            type="button"
+            className="flex h-[34px] w-[110px] items-center justify-center gap-1.5 rounded border border-field-line bg-surface text-[13px] font-medium text-error-line hover:bg-danger-bg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-error-line"
+          >
+            <Trash2 aria-hidden className="size-3.5" />
+            Remove bid
+          </button>
+        </div>
       </div>
     </section>
   )
@@ -87,7 +94,7 @@ export function OptionA() {
         left={{
           title: 'Option A — Default',
           description:
-            'CS clicks Change bid on a row. Existing max bid adjustment UI with a Save bid button beside the field, a "Set to current price" shortcut below it, and a Remove bid section added below that.',
+            'CS clicks Change bid on a row. Full bid context at the top, then two separated action zones: Adjust max bid with a Save bid button beside the field and a "Set to current price" shortcut below it, and a Remove bid section below that.',
           banner: {
             kind: 'pros',
             text: 'Lowest learning curve. Minimum change to existing patterns. Fast to build and approve.',
