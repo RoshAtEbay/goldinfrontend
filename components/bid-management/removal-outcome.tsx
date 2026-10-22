@@ -78,23 +78,23 @@ export function RemovalImpact({
   const { outcome } = confirm
   const rows = [
     {
-      label: 'Current winner',
-      value: CUSTOMER.name,
-    },
-    {
-      label: 'Current winning bid',
-      value: formatUsd(BID.currentPrice),
-    },
-    {
-      label: 'New winner',
-      value: outcome.winner,
-      changed: true,
-    },
-    {
-      label: 'New winning bid',
-      value: outcome.bid === null ? 'No bids' : formatUsd(outcome.bid),
-      changed: true,
-    },
+  label: 'Current winner',
+  value: CUSTOMER.name,
+  removed: true,
+  },
+  {
+  label: 'Current winning bid',
+  value: formatUsd(BID.currentPrice),
+  removed: true,
+  },
+  {
+  label: 'New winner',
+  value: outcome.winner,
+  },
+  {
+  label: 'New winning bid',
+  value: outcome.bid === null ? 'No bids' : formatUsd(outcome.bid),
+  },
   ]
 
   return (
@@ -106,7 +106,7 @@ export function RemovalImpact({
             <dd
               className={cn(
                 'mt-0.5 text-[14px] font-semibold',
-                row.changed ? 'text-error-ink' : 'text-ink',
+                row.removed ? 'text-error-ink' : 'text-ink',
               )}
             >
               {row.value}
