@@ -2,6 +2,7 @@
 
 import { Trash2, X } from 'lucide-react'
 import { BID, CUSTOMER, LOT_LABEL, formatUsd } from '@/lib/bids'
+import { BidSummaryCard } from './bid-summary-card'
 import {
   MaxBidInput,
   SaveBidButton,
@@ -12,7 +13,9 @@ import { Banner, OptionPair } from './option-pair'
 import { PanelLabel } from './panel-label'
 import {
   AcknowledgeCheckbox,
+  MIN_BID_HELPER,
   OutcomeToggle,
+  REMOVE_BID_COPY,
   RemovalImpact,
   RemovalWarning,
   useRemovalConfirm,
@@ -43,22 +46,14 @@ function EditBidDialog({ field }: { field: MaxBidField }) {
         </button>
       </div>
 
-      <div className="mb-4 mt-4 rounded-md bg-context p-2.5">
-        <p className="text-[13px] font-semibold text-ink">
-          {LOT_LABEL} — Lot #{BID.lotNumber}
-        </p>
-        <p className="mt-1 text-[12px] text-subtle">
-          Max Bid: {formatUsd(field.saved)} · Current Price:{' '}
-          {formatUsd(BID.currentPrice)} · Winner: Yes
-        </p>
-      </div>
+      <BidSummaryCard maxBid={field.saved} className="mb-5 mt-4" />
 
       <p className="mb-2 text-[12px] font-semibold uppercase tracking-wide text-faint">
         Adjust max bid
       </p>
       <MaxBidInput
         field={field}
-        helper={`Minimum: ${formatUsd(BID.minimumBid)} (current price)`}
+        helper={MIN_BID_HELPER}
         action={<SaveBidButton field={field} />}
       />
 
@@ -66,8 +61,7 @@ function EditBidDialog({ field }: { field: MaxBidField }) {
 
       <h4 className="text-[13px] font-semibold text-ink">Remove bid</h4>
       <p className="mt-1 text-[12px] leading-relaxed text-subtle">
-        Permanently removes this user&apos;s bid from this lot. This may result
-        in the item going unsold or reducing the sale price.
+        {REMOVE_BID_COPY}
       </p>
       <div className="mt-3 flex justify-end">
         <button

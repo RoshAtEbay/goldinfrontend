@@ -1,12 +1,15 @@
 'use client'
 
-import { Check, Trash2, X } from 'lucide-react'
-import { BID, CUSTOMER, LOT_LABEL, NEXT_BID, formatUsd } from '@/lib/bids'
+import { Trash2, X } from 'lucide-react'
+import { BID, CUSTOMER, LOT_LABEL } from '@/lib/bids'
+import { BidSummaryCard } from './bid-summary-card'
 import { MaxBidInput, SaveBidButton, useMaxBidField } from './max-bid-field'
 import { OptionPair } from './option-pair'
 import {
   AcknowledgeCheckbox,
+  MIN_BID_HELPER,
   OutcomeToggle,
+  REMOVE_BID_COPY,
   RemovalImpact,
   RemovalWarning,
   useRemovalConfirm,
@@ -25,38 +28,6 @@ function CloseButton({ onClick }: { onClick?: () => void }) {
     >
       <X aria-hidden className="size-4" />
     </button>
-  )
-}
-
-function BidFacts({ maxBid }: { maxBid: number }) {
-  const facts = [
-    { label: 'Max Bid', value: formatUsd(maxBid) },
-    { label: 'Current Price', value: formatUsd(BID.currentPrice) },
-    {
-      label: 'Status',
-      value: (
-        <span className="inline-flex items-center gap-1">
-          Winning
-          <Check aria-hidden className="size-3.5" strokeWidth={3} />
-        </span>
-      ),
-      tone: 'text-success',
-    },
-    { label: 'Next Bid', value: formatUsd(NEXT_BID) },
-  ]
-  return (
-    <dl className="mt-3 grid grid-cols-2 gap-x-4 gap-y-3">
-      {facts.map((fact) => (
-        <div key={fact.label}>
-          <dt className="text-[11px] text-faint">{fact.label}</dt>
-          <dd
-            className={`mt-0.5 text-[14px] font-semibold ${fact.tone ?? 'text-ink'}`}
-          >
-            {fact.value}
-          </dd>
-        </div>
-      ))}
-    </dl>
   )
 }
 
@@ -87,17 +58,7 @@ export function OptionB() {
               <CloseButton onClick={field.reset} />
             </div>
 
-            <div className="mb-5 mt-4 rounded-md bg-context px-4 py-3">
-              <p className="flex items-baseline gap-2">
-                <span className="text-[14px] font-semibold text-ink">
-                  {LOT_LABEL}
-                </span>
-                <span className="text-[12px] text-faint">
-                  Lot #{BID.lotNumber}
-                </span>
-              </p>
-              <BidFacts maxBid={field.saved} />
-            </div>
+            <BidSummaryCard maxBid={field.saved} className="mb-5 mt-4" />
 
             <hr className="border-divider" />
 
@@ -107,7 +68,7 @@ export function OptionB() {
               </p>
               <MaxBidInput
                 field={field}
-                helper={`Cannot be lower than current price (${formatUsd(BID.currentPrice)})`}
+                helper={MIN_BID_HELPER}
                 ariaLabel="New max bid"
                 action={<SaveBidButton field={field} />}
               />
@@ -120,8 +81,7 @@ export function OptionB() {
                 Remove bid
               </p>
               <p className="mb-3 text-[13px] leading-relaxed text-subtle">
-                Permanently removes this user&apos;s bid from this lot. This may
-                result in the item going unsold or reducing the sale price.
+                {REMOVE_BID_COPY}
               </p>
               <div className="flex justify-end">
                 <button

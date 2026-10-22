@@ -3,7 +3,11 @@
 import { useId, useState } from 'react'
 import { TriangleAlert } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { BID, CUSTOMER, formatUsd } from '@/lib/bids'
+import { BID, CUSTOMER, LOT_LABEL, formatUsd } from '@/lib/bids'
+
+export const MIN_BID_HELPER = `Minimum max bid: ${formatUsd(BID.minimumBid)}. This is the current price of ${LOT_LABEL} #${BID.lotNumber}.`
+
+export const REMOVE_BID_COPY = `Remove ${CUSTOMER.name}'s most recent bid on ${LOT_LABEL} #${BID.lotNumber}. If it's the winning bid, the next highest bid will take its place.`
 
 type Scenario = 'another' | 'none'
 
@@ -135,7 +139,7 @@ export function RemovalWarning({
       />
       <div>
         <p className="text-[15px] font-semibold leading-snug text-error-ink">
-          {`${CUSTOMER.name}'s bid will be permanently removed from ${lotLabel}.`}
+          {`${CUSTOMER.name}'s most recent bid on ${lotLabel} will be permanently removed.`}
         </p>
         <p className="mt-1.5 text-[13px] leading-relaxed text-ink">
           This can result in an item going unsold, or reducing the sale price.

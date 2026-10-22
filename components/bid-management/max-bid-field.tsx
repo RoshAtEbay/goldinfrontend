@@ -112,7 +112,7 @@ export function MaxBidInput({
         />
         {action}
       </div>
-      <div className="mt-1.5 flex items-start justify-between gap-3">
+      <div className="mt-1.5 flex flex-wrap items-start justify-between gap-x-3 gap-y-1">
         <p
           id={helperId}
           className={cn(
