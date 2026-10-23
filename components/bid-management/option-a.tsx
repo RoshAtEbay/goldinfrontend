@@ -1,7 +1,7 @@
 'use client'
 
 import { Trash2, X } from 'lucide-react'
-import { BID, CUSTOMER, LOT_LABEL, formatUsd } from '@/lib/bids'
+import { BID, CUSTOMER, LOT_LABEL } from '@/lib/bids'
 import { BidSummaryCard } from './bid-summary-card'
 import {
   MaxBidInput,
@@ -9,8 +9,7 @@ import {
   useMaxBidField,
   type MaxBidField,
 } from './max-bid-field'
-import { Banner, OptionPair } from './option-pair'
-import { PanelLabel } from './panel-label'
+import { OptionPair } from './option-pair'
 import {
   AcknowledgeCheckbox,
   MIN_BID_HELPER,
@@ -22,8 +21,6 @@ import {
 } from './removal-outcome'
 
 const CARD = 'mx-auto w-full rounded-lg border border-line bg-surface shadow-sm'
-
-const HIGH_MAX_BID = 500
 
 function EditBidDialog({ field }: { field: MaxBidField }) {
   return (
@@ -85,7 +82,6 @@ function EditBidDialog({ field }: { field: MaxBidField }) {
 
 export function OptionA() {
   const field = useMaxBidField()
-  const highField = useMaxBidField(HIGH_MAX_BID)
   const confirm = useRemovalConfirm()
 
   return (
@@ -94,7 +90,7 @@ export function OptionA() {
         left={{
           title: 'Option A — Default',
           description:
-            'CS clicks Change bid on a row. Full bid context at the top, then two separated action zones: Adjust max bid with a Save bid button beside the field and a "Set to current price" shortcut below it, and a Remove bid section below that.',
+            'CS clicks Change bid on a row. Full bid context at the top, then two separated action zones: Adjust max bid with a Save bid button beside the field, and a Remove bid section below that.',
           banner: {
             kind: 'pros',
             text: 'Lowest learning curve. Minimum change to existing patterns. Fast to build and approve.',
@@ -164,21 +160,6 @@ export function OptionA() {
           ),
         }}
       />
-
-      <div className="grid grid-cols-1 gap-x-8 lg:grid-cols-2">
-        <div className="min-w-0">
-          <PanelLabel
-            title="Option A — Max bid above current price"
-            subtitle={`When the saved max bid is higher than the current price, a "Set to current price" link appears under the field. One click snaps it to ${formatUsd(BID.currentPrice)}, then Save bid confirms it.`}
-            stateLabel="Proposed State"
-          />
-          <EditBidDialog field={highField} />
-          <Banner
-            kind="pros"
-            text="Snapping a max bid down to the current price takes one click instead of typing the amount. The link hides itself once the field already matches."
-          />
-        </div>
-      </div>
     </div>
   )
 }
