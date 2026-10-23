@@ -146,23 +146,17 @@ export function RemovalWarning({
   return (
     <div
       className={cn(
-        'flex items-start gap-3 rounded-md border border-danger-line bg-danger-bg p-4',
+        'flex items-center gap-3 rounded-md border border-danger-line bg-danger-bg p-4',
         className,
       )}
     >
       <TriangleAlert
         aria-hidden
-        className="mt-0.5 size-5 shrink-0 text-error-line"
+        className="size-5 shrink-0 text-error-line"
       />
-      <div>
-        <p className="text-[15px] font-semibold leading-snug text-error-ink">
-          {`${CUSTOMER.name}'s most recent bid on ${lotLabel} will be permanently removed.`}
-        </p>
-        <p className="mt-1.5 text-[13px] leading-relaxed text-ink">
-          This can result in an item going unsold, or reducing the sale price.
-          Cannot be undone. Do not proceed lightly!
-        </p>
-      </div>
+      <p className="text-[15px] font-semibold leading-snug text-error-ink">
+        {`${CUSTOMER.name}'s most recent bid on ${lotLabel} will be permanently removed.`}
+      </p>
     </div>
   )
 }
