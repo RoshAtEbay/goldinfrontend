@@ -85,38 +85,7 @@ function StatusText() {
   )
 }
 
-/** Option A: identity block that sits directly under the modal title. */
-export function BidderHeader({ className }: { className?: string }) {
-  return (
-    <div className={cn('flex items-start gap-3', className)}>
-      <Avatar className="size-10 text-[14px]" />
-      <div className="min-w-0 flex-1">
-        <p className="flex items-baseline gap-2">
-          <span className="text-[15px] font-semibold text-ink">
-            {CUSTOMER.name}
-          </span>
-          <StatusText />
-        </p>
-        <ul className="mt-0.5 flex flex-col">
-          {CONTACTS.map(({ key, label, copyValue, display, href, Icon }) => (
-            <li key={key} className="flex items-center gap-2">
-              <Icon aria-hidden className="size-3.5 shrink-0 text-faint" />
-              <a
-                href={href}
-                className="truncate text-[13px] text-ink hover:underline focus-visible:outline-2 focus-visible:outline-brand"
-              >
-                {display}
-              </a>
-              <CopyButton value={copyValue} label={label.toLowerCase()} />
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
-  )
-}
-
-/** Option B: bidder section that lives inside the grey bid card. */
+/** Option A: bidder section that lives inside the grey bid card. */
 export function BidderSection() {
   return (
     <div>
@@ -148,7 +117,7 @@ export function BidderSection() {
   )
 }
 
-/** Option C: two small copyable chips under the title. */
+/** Option B: two small copyable chips under the title. */
 export function ContactChips({ className }: { className?: string }) {
   return (
     <ul className={cn('flex flex-wrap gap-1.5', className)}>

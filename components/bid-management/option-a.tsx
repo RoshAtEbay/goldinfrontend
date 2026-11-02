@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { Trash2, X } from 'lucide-react'
 import { BID, CUSTOMER, LOT_LABEL } from '@/lib/bids'
 import { BidSummaryCard } from './bid-summary-card'
-import { BidderHeader, BidderSection, ContactChips } from './bidder-context'
+import { BidderSection, ContactChips } from './bidder-context'
 import {
   MaxBidInput,
   SaveBidButton,
@@ -24,7 +24,7 @@ import {
 } from './removal-outcome'
 import { Switcher } from './variant-switcher'
 
-type DesignId = 'current' | 'a' | 'b' | 'c'
+type DesignId = 'current' | 'a' | 'b'
 
 type Note = { kind: 'pros' | 'cons'; text: string }
 
@@ -58,27 +58,7 @@ const DESIGNS: Design[] = [
   },
   {
     id: 'a',
-    label: 'Option A · Bidder header',
-    edit: {
-      description:
-        'A bidder block sits directly under the title: avatar, name, status, then email and phone with copy buttons. The title becomes "Change bid" and the grey card holds only lot facts.',
-      banner: {
-        kind: 'pros',
-        text: 'Who the bidder is and how to reach them are in one place, in the same position in both modals.',
-      },
-    },
-    confirm: {
-      description:
-        'The same bidder block in the same position, followed by the warning and the before/after card.',
-      banner: {
-        kind: 'cons',
-        text: 'The bidder block competes with the lot card for attention, and the name still appears again in the warning.',
-      },
-    },
-  },
-  {
-    id: 'b',
-    label: 'Option B · One merged card',
+    label: 'Option A · One merged card',
     edit: {
       description:
         'One grey card answers both questions: the bidder (name, status, email, phone) on top, the lot facts below. The title becomes "Change bid".',
@@ -97,8 +77,8 @@ const DESIGNS: Design[] = [
     },
   },
   {
-    id: 'c',
-    label: 'Option C · Contact chips',
+    id: 'b',
+    label: 'Option B · Contact chips',
     edit: {
       description:
         'The title keeps "on behalf of Adam Bales". Email and phone sit under it as two small chips with a copy button. Nothing else changes.',
@@ -128,7 +108,7 @@ function EditBidDialog({
   field: MaxBidField
   design: DesignId
 }) {
-  const identityInTitle = design === 'current' || design === 'c'
+  const identityInTitle = design === 'current' || design === 'b'
 
   return (
     <section
@@ -152,12 +132,11 @@ function EditBidDialog({
         </button>
       </div>
 
-      {design === 'a' && <BidderHeader className="mt-4" />}
-      {design === 'c' && <ContactChips className="mt-3" />}
+      {design === 'b' && <ContactChips className="mt-3" />}
 
       <BidSummaryCard
         maxBid={field.saved}
-        bidder={design === 'b' ? <BidderSection /> : undefined}
+        bidder={design === 'a' ? <BidderSection /> : undefined}
         className="mb-5 mt-4"
       />
 
@@ -227,8 +206,7 @@ function ConfirmRemovalDialog({
           </button>
         </div>
 
-        {design === 'a' && <BidderHeader className="mt-4" />}
-        {design === 'c' && <ContactChips className="mt-3" />}
+        {design === 'b' && <ContactChips className="mt-3" />}
 
         <RemovalWarning
           lotLabel={`${LOT_LABEL} #${BID.lotNumber}`}
@@ -237,7 +215,7 @@ function ConfirmRemovalDialog({
 
         <RemovalImpactCard
           confirm={confirm}
-          bidder={design === 'b' ? <BidderSection /> : undefined}
+          bidder={design === 'a' ? <BidderSection /> : undefined}
           className="mb-5 mt-4"
         />
 
