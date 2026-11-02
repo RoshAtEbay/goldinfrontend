@@ -3,8 +3,8 @@
 import { useState } from 'react'
 import { Trash2, X } from 'lucide-react'
 import { BID, CUSTOMER, LOT_LABEL } from '@/lib/bids'
-import { BidSummaryCard } from './bid-summary-card'
-import { ContactChips } from './bidder-context'
+import { BidSummaryCard, PlainFacts } from './bid-summary-card'
+import { ContactChips, ContactRows, PLAIN_DL } from './bidder-context'
 import {
   BiddingPower,
   MaxBidInput,
@@ -25,7 +25,7 @@ import {
 } from './removal-outcome'
 import { Switcher } from './variant-switcher'
 
-type DesignId = 'current' | 'b'
+type DesignId = 'current' | 'b' | 'c'
 
 type Note = { kind: 'pros' | 'cons'; text: string }
 
@@ -74,6 +74,26 @@ const DESIGNS: Design[] = [
       banner: {
         kind: 'cons',
         text: 'The chips have no name next to them, so the confirmation relies on the warning to say whose they are.',
+      },
+    },
+  },
+  {
+    id: 'c',
+    label: 'Option C · Plain list',
+    edit: {
+      description:
+        'The grey card, the bold values and the chips are gone. The lot, the three bid figures, Bidding Power, email and phone are one plain label and value list, like the original modal.',
+      banner: {
+        kind: 'pros',
+        text: 'Every fact is still there, with no boxes, pills or colour to read around, and Bidding Power now sits with the figures it limits.',
+      },
+    },
+    confirm: {
+      description:
+        'The same plain Email and Phone rows sit at the top, with a copy button on each, above the warning.',
+      banner: {
+        kind: 'cons',
+        text: 'Plain text is quieter, so the contact rows are easier to skip past than chips.',
       },
     },
   },
@@ -130,19 +150,29 @@ function EditBidDialog({
       />
 
       <div className="px-6 pb-6 pt-5">
-        {design === 'b' && <ContactChips />}
+        {design === 'c' ? (
+          <PlainFacts
+            maxBid={field.saved}
+            powerTooHigh={field.tooHigh}
+            className="mb-5"
+          />
+        ) : (
+          <>
+            {design === 'b' && <ContactChips />}
 
-        <BidSummaryCard
-          maxBid={field.saved}
-          className={design === 'b' ? 'mb-5 mt-4' : 'mb-5'}
-        />
+            <BidSummaryCard
+              maxBid={field.saved}
+              className={design === 'b' ? 'mb-5 mt-4' : 'mb-5'}
+            />
+          </>
+        )}
 
         <hr className="border-divider" />
 
         <div className="pt-4">
           <div className="mb-2 flex items-baseline justify-between gap-4">
             <p className="text-[13px] font-semibold text-ink">Adjust max bid</p>
-            <BiddingPower field={field} />
+            {design !== 'c' && <BiddingPower field={field} />}
           </div>
           <MaxBidInput
             field={field}
@@ -195,10 +225,15 @@ function ConfirmRemovalDialog({
 
         <div className="px-6 pb-6 pt-5">
           {design === 'b' && <ContactChips />}
+          {design === 'c' && (
+            <dl className={PLAIN_DL}>
+              <ContactRows />
+            </dl>
+          )}
 
           <RemovalWarning
             lotLabel={`${LOT_LABEL} #${BID.lotNumber}`}
-            className={design === 'b' ? 'mt-4' : undefined}
+            className={design === 'current' ? undefined : 'mt-4'}
           />
 
           <RemovalImpactCard

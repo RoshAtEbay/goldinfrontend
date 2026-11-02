@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, type ReactNode } from 'react'
 import { Check, Copy, Mail, Phone } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { CUSTOMER } from '@/lib/bids'
@@ -55,6 +55,49 @@ function CopyButton({ value, label }: { value: string; label: string }) {
         <Copy aria-hidden className="size-3.5" />
       )}
     </button>
+  )
+}
+
+export const PLAIN_DL =
+  'grid grid-cols-[7rem_1fr] items-center gap-x-4 gap-y-1 text-[13px]'
+
+export function FactRow({
+  label,
+  tone,
+  children,
+}: {
+  label: string
+  tone?: string
+  children: ReactNode
+}) {
+  return (
+    <>
+      <dt className="text-faint">{label}</dt>
+      <dd className={cn('min-w-0', tone ?? 'text-ink')}>{children}</dd>
+    </>
+  )
+}
+
+/** Email and phone as plain label/value rows, for use inside a PLAIN_DL grid. */
+export function ContactRows() {
+  return (
+    <>
+      {CONTACTS.map(({ key, label, copyValue, display, href }) => (
+        <FactRow key={key} label={label}>
+          <span className="flex items-center">
+            <a
+              href={href}
+              className="truncate hover:underline focus-visible:outline-2 focus-visible:outline-brand"
+            >
+              {display}
+            </a>
+            <span className="-my-1.5">
+              <CopyButton value={copyValue} label={label.toLowerCase()} />
+            </span>
+          </span>
+        </FactRow>
+      ))}
+    </>
   )
 }
 
