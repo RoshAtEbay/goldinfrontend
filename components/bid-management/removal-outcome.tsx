@@ -10,6 +10,7 @@ import {
   NEW_LEADING_BIDDER,
   formatUsd,
 } from '@/lib/bids'
+import { ContactChips } from './bidder-context'
 
 export const MIN_BID_HELPER = `Minimum Bid: ${formatUsd(BID.minimumBid)}. This is the next bid on ${LOT_LABEL} #${BID.lotNumber}.`
 
@@ -119,8 +120,15 @@ export function RemovalImpact({
             </dd>
           </div>
         ))}
+        {outcome.bid !== null && (
+          <div className="col-span-2">
+            <dt className="text-[11px] text-faint">New winner contact info</dt>
+            <dd className="mt-1.5">
+              <ContactChips person={NEW_LEADING_BIDDER} />
+            </dd>
+          </div>
+        )}
       </dl>
-
     </div>
   )
 }

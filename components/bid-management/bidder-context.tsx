@@ -3,14 +3,13 @@
 import { useState, type ReactNode } from 'react'
 import { Check, Copy, Mail, Phone } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { CUSTOMER, NEW_LEADING_BIDDER } from '@/lib/bids'
 
 function formatPhone(raw: string) {
   const match = raw.match(/^\+1(\d{3})(\d{3})(\d{4})$/)
   return match ? `+1 (${match[1]}) ${match[2]}-${match[3]}` : raw
 }
 
-type Person = { name: string; email: string; phone: string }
+export type Person = { name: string; email: string; phone: string }
 
 function contactsFor(person: Person) {
   return [
@@ -84,53 +83,8 @@ export function FactRow({
   )
 }
 
-/** Both people affected by the removal, each with their own copyable contact chips. */
-export function BothContacts({
-  hasNextBidder,
-  className,
-}: {
-  hasNextBidder: boolean
-  className?: string
-}) {
-  return (
-    <div className={cn('flex flex-col gap-3', className)}>
-      <PersonContacts
-        person={CUSTOMER}
-        role="Bid being removed"
-        nameId="contact-removed"
-      />
-      {hasNextBidder && (
-        <PersonContacts
-          person={NEW_LEADING_BIDDER}
-          role="Next highest bidder"
-          nameId="contact-next"
-        />
-      )}
-    </div>
-  )
-}
-
-function PersonContacts({
-  person,
-  role,
-  nameId,
-}: {
-  person: Person
-  role: string
-  nameId: string
-}) {
-  return (
-    <section aria-labelledby={nameId}>
-      <p id={nameId} className="mb-1.5 text-[12px]">
-        <span className="font-semibold text-ink">{person.name}</span>
-        <span className="text-faint"> · {role}</span>
-      </p>
-      <ContactChips person={person} />
-    </section>
-  )
-}
-
-function ContactChips({
+/** Two small copyable chips (email, phone) for one person. */
+export function ContactChips({
   person,
   className,
 }: {
