@@ -36,19 +36,6 @@ export function useMaxBidField(initial: number = BID.initialMaxBid) {
 
 export type MaxBidField = ReturnType<typeof useMaxBidField>
 
-export function BiddingPower({ field }: { field: MaxBidField }) {
-  return (
-    <p
-      className={cn(
-        'whitespace-nowrap text-[13px] font-medium',
-        field.tooHigh ? 'text-error-ink' : 'text-ink',
-      )}
-    >
-      Bidding Power: {formatUsd(BID.biddingPower)}
-    </p>
-  )
-}
-
 export function SaveBidButton({ field }: { field: MaxBidField }) {
   return (
     <button

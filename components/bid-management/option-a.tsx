@@ -1,12 +1,10 @@
 'use client'
 
-import { useState } from 'react'
 import { Trash2, X } from 'lucide-react'
 import { BID, CUSTOMER, LOT_LABEL } from '@/lib/bids'
-import { BidSummaryCard, PlainFacts } from './bid-summary-card'
-import { ContactChips, ContactRows, PLAIN_DL } from './bidder-context'
+import { PlainFacts } from './bid-summary-card'
+import { ContactChips } from './bidder-context'
 import {
-  BiddingPower,
   MaxBidInput,
   SaveBidButton,
   useMaxBidField,
@@ -23,84 +21,28 @@ import {
   useRemovalConfirm,
   type RemovalConfirm,
 } from './removal-outcome'
-import { Switcher } from './variant-switcher'
 
-type DesignId = 'current' | 'b' | 'c'
-
-type Note = { kind: 'pros' | 'cons'; text: string }
-
-type Design = {
-  id: DesignId
-  label: string
-  edit: { description: string; banner: Note }
-  confirm: { description: string; banner: Note }
+const EDIT_COPY = {
+  title: 'Edit bid modal',
+  description:
+    'The lot, the three bid figures, Bidding Power, email and phone are one plain label and value list. Nothing sits in a box, pill or bold weight.',
+  banner: {
+    kind: 'pros' as const,
+    text: 'Every fact is still there, and Bidding Power sits with the figures it limits.',
+  },
 }
 
-const DESIGNS: Design[] = [
-  {
-    id: 'current',
-    label: 'Current',
-    edit: {
-      description:
-        "Today's layout. The bidder's name is only in the title, and the grey card shows lot facts with no name or contact details.",
-      banner: {
-        kind: 'cons',
-        text: 'CS cannot see how to reach the bidder, and the two modals identify the bidder in different ways.',
-      },
-    },
-    confirm: {
-      description:
-        "The name appears in the warning and in the before/after grid. There are no contact details, and the card doesn't match the edit modal.",
-      banner: {
-        kind: 'cons',
-        text: 'Same bidder, shown differently from the edit modal, with no way to contact them.',
-      },
-    },
+const CONFIRM_COPY = {
+  title: 'Removal confirmation',
+  description:
+    'The title stays "Confirm bid removal" with email and phone as two small copyable chips under it. The warning names the bidder.',
+  banner: {
+    kind: 'cons' as const,
+    text: 'The chips have no name next to them, so the confirmation relies on the warning to say whose they are.',
   },
-  {
-    id: 'b',
-    label: 'Option B · Contact chips',
-    edit: {
-      description:
-        'The title keeps "on behalf of Adam Bales". Email and phone sit under it as two small chips with a copy button. Nothing else changes.',
-      banner: {
-        kind: 'pros',
-        text: 'The smallest change to today\'s layout, and contact details are always one click from being copied.',
-      },
-    },
-    confirm: {
-      description:
-        'The title stays "Confirm bid removal" with the same two chips under it. The warning names the bidder.',
-      banner: {
-        kind: 'cons',
-        text: 'The chips have no name next to them, so the confirmation relies on the warning to say whose they are.',
-      },
-    },
-  },
-  {
-    id: 'c',
-    label: 'Option C · Plain list',
-    edit: {
-      description:
-        'The grey card, the bold values and the chips are gone. The lot, the three bid figures, Bidding Power, email and phone are one plain label and value list, like the original modal.',
-      banner: {
-        kind: 'pros',
-        text: 'Every fact is still there, with no boxes, pills or colour to read around, and Bidding Power now sits with the figures it limits.',
-      },
-    },
-    confirm: {
-      description:
-        'The same plain Email and Phone rows sit at the top, with a copy button on each, above the warning.',
-      banner: {
-        kind: 'cons',
-        text: 'Plain text is quieter, so the contact rows are easier to skip past than chips.',
-      },
-    },
-  },
-]
+}
 
 const CARD = 'mx-auto w-full rounded-lg border border-line bg-surface shadow-sm'
-const PANEL_ID = 'layout-panel'
 
 function ModalHeader({
   title,
@@ -131,13 +73,7 @@ function ModalHeader({
   )
 }
 
-function EditBidDialog({
-  field,
-  design,
-}: {
-  field: MaxBidField
-  design: DesignId
-}) {
+function EditBidDialog({ field }: { field: MaxBidField }) {
   return (
     <section
       role="dialog"
@@ -150,30 +86,18 @@ function EditBidDialog({
       />
 
       <div className="px-6 pb-6 pt-5">
-        {design === 'c' ? (
-          <PlainFacts
-            maxBid={field.saved}
-            powerTooHigh={field.tooHigh}
-            className="mb-5"
-          />
-        ) : (
-          <>
-            {design === 'b' && <ContactChips />}
-
-            <BidSummaryCard
-              maxBid={field.saved}
-              className={design === 'b' ? 'mb-5 mt-4' : 'mb-5'}
-            />
-          </>
-        )}
+        <PlainFacts
+          maxBid={field.saved}
+          powerTooHigh={field.tooHigh}
+          className="mb-5"
+        />
 
         <hr className="border-divider" />
 
         <div className="pt-4">
-          <div className="mb-2 flex items-baseline justify-between gap-4">
-            <p className="text-[13px] font-semibold text-ink">Adjust max bid</p>
-            {design !== 'c' && <BiddingPower field={field} />}
-          </div>
+          <p className="mb-2 text-[13px] font-semibold text-ink">
+            Adjust max bid
+          </p>
           <MaxBidInput
             field={field}
             helper={MIN_BID_HELPER}
@@ -206,13 +130,7 @@ function EditBidDialog({
   )
 }
 
-function ConfirmRemovalDialog({
-  confirm,
-  design,
-}: {
-  confirm: RemovalConfirm
-  design: DesignId
-}) {
+function ConfirmRemovalDialog({ confirm }: { confirm: RemovalConfirm }) {
   return (
     <div className="mx-auto w-full max-w-[460px]">
       <OutcomeToggle confirm={confirm} />
@@ -224,16 +142,11 @@ function ConfirmRemovalDialog({
         <ModalHeader title="Confirm bid removal" titleId="option-a-confirm-title" />
 
         <div className="px-6 pb-6 pt-5">
-          {design === 'b' && <ContactChips />}
-          {design === 'c' && (
-            <dl className={PLAIN_DL}>
-              <ContactRows />
-            </dl>
-          )}
+          <ContactChips />
 
           <RemovalWarning
             lotLabel={`${LOT_LABEL} #${BID.lotNumber}`}
-            className={design === 'current' ? undefined : 'mt-4'}
+            className="mt-4"
           />
 
           <RemovalImpactCard
@@ -267,45 +180,25 @@ function ConfirmRemovalDialog({
 }
 
 export function OptionA() {
-  const [designId, setDesignId] = useState<DesignId>('b')
   const field = useMaxBidField()
   const confirm = useRemovalConfirm()
-  const design = DESIGNS.find((item) => item.id === designId) ?? DESIGNS[0]
 
   return (
-    <div className="mx-auto flex w-full max-w-[1640px] flex-col gap-y-8">
-      <div className="flex flex-wrap items-center justify-end gap-3">
-        <span className="text-[12px] text-faint">Bidder details layout</span>
-        <Switcher
-          label="Bidder details layout"
-          prefix="layout"
-          options={DESIGNS}
-          value={designId}
-          onChange={setDesignId}
-          controls={PANEL_ID}
-        />
-      </div>
-
-      <div
-        role="tabpanel"
-        id={PANEL_ID}
-        aria-labelledby={`layout-tab-${designId}`}
-      >
-        <OptionPair
-          left={{
-            title: `Edit bid modal — ${design.label}`,
-            description: design.edit.description,
-            banner: design.edit.banner,
-            children: <EditBidDialog field={field} design={designId} />,
-          }}
-          right={{
-            title: `Removal confirmation — ${design.label}`,
-            description: design.confirm.description,
-            banner: design.confirm.banner,
-            children: <ConfirmRemovalDialog confirm={confirm} design={designId} />,
-          }}
-        />
-      </div>
+    <div className="mx-auto w-full max-w-[1640px]">
+      <OptionPair
+        left={{
+          title: EDIT_COPY.title,
+          description: EDIT_COPY.description,
+          banner: EDIT_COPY.banner,
+          children: <EditBidDialog field={field} />,
+        }}
+        right={{
+          title: CONFIRM_COPY.title,
+          description: CONFIRM_COPY.description,
+          banner: CONFIRM_COPY.banner,
+          children: <ConfirmRemovalDialog confirm={confirm} />,
+        }}
+      />
     </div>
   )
 }
