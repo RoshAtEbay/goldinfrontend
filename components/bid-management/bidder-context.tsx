@@ -86,22 +86,36 @@ export function FactRow({
 /** Two small copyable chips (email, phone) for one person. */
 export function ContactChips({
   person,
+  compact,
   className,
 }: {
   person: Person
+  compact?: boolean
   className?: string
 }) {
   return (
-    <ul className={cn('flex flex-wrap gap-1.5', className)}>
+    <ul
+      className={cn(
+        'flex gap-1.5',
+        compact ? 'flex-nowrap gap-1' : 'flex-wrap',
+        className,
+      )}
+    >
       {contactsFor(person).map(({ key, label, copyValue, display, href, Icon }) => (
         <li
           key={key}
-          className="flex h-8 items-center gap-1.5 rounded-full border border-line bg-surface pl-2.5 pr-1"
+          className={cn(
+            'flex items-center rounded-full border border-line bg-surface',
+            compact ? 'h-7 gap-1 pl-2 pr-0.5' : 'h-8 gap-1.5 pl-2.5 pr-1',
+          )}
         >
           <Icon aria-hidden className="size-3.5 shrink-0 text-faint" />
           <a
             href={href}
-            className="text-[12px] text-ink hover:underline focus-visible:outline-2 focus-visible:outline-brand"
+            className={cn(
+              'whitespace-nowrap text-ink hover:underline focus-visible:outline-2 focus-visible:outline-brand',
+              compact ? 'text-[11px]' : 'text-[12px]',
+            )}
           >
             {display}
           </a>

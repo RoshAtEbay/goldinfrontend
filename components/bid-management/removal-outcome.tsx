@@ -1,6 +1,6 @@
 'use client'
 
-import { useId, useState } from 'react'
+import { Fragment, useId, useState } from 'react'
 import { TriangleAlert } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import {
@@ -83,51 +83,63 @@ export function RemovalImpact({
   className?: string
 }) {
   const { outcome } = confirm
-  const rows = [
+  const groups = [
     {
-  label: 'Current winner',
-  value: CUSTOMER.name,
-  removed: true,
-  },
-  {
-  label: 'Current winning bid',
-  value: formatUsd(BID.currentPrice),
-  removed: true,
-  },
-  {
-  label: 'New winner',
-  value: outcome.winner,
-  },
-  {
-  label: 'New winning bid',
-  value: outcome.bid === null ? 'No bids' : formatUsd(outcome.bid),
-  },
+      id: 'current',
+      rows: [
+        { label: 'Current winner', value: CUSTOMER.name, removed: true },
+        {
+          label: 'Current winning bid',
+          value: formatUsd(BID.currentPrice),
+          removed: true,
+        },
+      ],
+      contactLabel: 'Current winner contact info',
+      person: CUSTOMER,
+    },
+    {
+      id: 'new',
+      rows: [
+        { label: 'New winner', value: outcome.winner, removed: false },
+        {
+          label: 'New winning bid',
+          value: outcome.bid === null ? 'No bids' : formatUsd(outcome.bid),
+          removed: false,
+        },
+      ],
+      contactLabel: 'New winner contact info',
+      person: outcome.bid === null ? null : NEW_LEADING_BIDDER,
+    },
   ]
 
   return (
     <div className={className}>
       <dl className="grid grid-cols-2 gap-x-4 gap-y-3">
-        {rows.map((row) => (
-          <div key={row.label}>
-            <dt className="text-[11px] text-faint">{row.label}</dt>
-            <dd
-              className={cn(
-                'mt-0.5 text-[14px] font-semibold',
-                row.removed ? 'text-error-ink' : 'text-ink',
-              )}
-            >
-              {row.value}
-            </dd>
-          </div>
+        {groups.map((group) => (
+          <Fragment key={group.id}>
+            {group.rows.map((row) => (
+              <div key={row.label}>
+                <dt className="text-[11px] text-faint">{row.label}</dt>
+                <dd
+                  className={cn(
+                    'mt-0.5 text-[14px] font-semibold',
+                    row.removed ? 'text-error-ink' : 'text-ink',
+                  )}
+                >
+                  {row.value}
+                </dd>
+              </div>
+            ))}
+            {group.person && (
+              <div className="col-span-2">
+                <dt className="text-[11px] text-faint">{group.contactLabel}</dt>
+                <dd className="mt-1.5">
+                  <ContactChips person={group.person} compact />
+                </dd>
+              </div>
+            )}
+          </Fragment>
         ))}
-        {outcome.bid !== null && (
-          <div className="col-span-2">
-            <dt className="text-[11px] text-faint">New winner contact info</dt>
-            <dd className="mt-1.5">
-              <ContactChips person={NEW_LEADING_BIDDER} />
-            </dd>
-          </div>
-        )}
       </dl>
     </div>
   )
