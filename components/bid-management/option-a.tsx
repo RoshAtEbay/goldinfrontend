@@ -154,13 +154,13 @@ function EditBidDialog({
 
       <div className="pb-1">
         <p className="mb-1.5 text-[13px] font-semibold text-ink">Remove bid</p>
-        <p className="mb-3 text-[13px] leading-relaxed text-subtle">
-          {REMOVE_BID_COPY}
-        </p>
-        <div className="flex justify-end">
+        <div className="flex items-center justify-between gap-4">
+          <p className="min-w-0 flex-1 text-[13px] leading-relaxed text-subtle">
+            {REMOVE_BID_COPY}
+          </p>
           <button
             type="button"
-            className="flex h-[34px] w-[110px] items-center justify-center gap-1.5 rounded border border-field-line bg-surface text-[13px] font-medium text-error-line hover:bg-danger-bg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-error-line"
+            className="flex h-9 w-[110px] shrink-0 items-center justify-center gap-1.5 rounded border border-field-line bg-surface text-[13px] font-medium text-error-line hover:bg-danger-bg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-error-line"
           >
             <Trash2 aria-hidden className="size-3.5" />
             Remove bid
