@@ -81,7 +81,7 @@ const DESIGNS: Design[] = [
     label: 'Option B · Contact chips',
     edit: {
       description:
-        'The title keeps "on behalf of Adam Bales". Email and phone sit below the grey bid card as two small chips with a copy button. Nothing else changes.',
+        'The title keeps "on behalf of Adam Bales". Email and phone sit under it as two small chips with a copy button. Nothing else changes.',
       banner: {
         kind: 'pros',
         text: 'The smallest change to today\'s layout, and contact details are always one click from being copied.',
@@ -89,7 +89,7 @@ const DESIGNS: Design[] = [
     },
     confirm: {
       description:
-        'The title stays "Confirm bid removal" with the same two chips below the before/after card. The warning names the bidder.',
+        'The title stays "Confirm bid removal" with the same two chips under it. The warning names the bidder.',
       banner: {
         kind: 'cons',
         text: 'The chips have no name next to them, so the confirmation relies on the warning to say whose they are.',
@@ -128,12 +128,13 @@ function EditBidDialog({
         </button>
       </div>
 
+      {design === 'b' && <ContactChips className="mt-3" />}
+
       <BidSummaryCard
         maxBid={field.saved}
         bidder={design === 'a' ? <BidderContactRow /> : undefined}
-        className={design === 'b' ? 'mt-4' : 'mb-5 mt-4'}
+        className="mb-5 mt-4"
       />
-      {design === 'b' && <ContactChips className="mb-5 mt-3" />}
 
       <hr className="border-divider" />
 
@@ -203,6 +204,8 @@ function ConfirmRemovalDialog({
           </button>
         </div>
 
+        {design === 'b' && <ContactChips className="mt-3" />}
+
         <RemovalWarning
           lotLabel={`${LOT_LABEL} #${BID.lotNumber}`}
           className="mt-4"
@@ -211,9 +214,8 @@ function ConfirmRemovalDialog({
         <RemovalImpactCard
           confirm={confirm}
           bidder={design === 'a' ? <BidderContactRow /> : undefined}
-          className={design === 'b' ? 'mt-4' : 'mb-5 mt-4'}
+          className="mb-5 mt-4"
         />
-        {design === 'b' && <ContactChips className="mb-5 mt-3" />}
 
         <div className="mb-5">
           <AcknowledgeCheckbox confirm={confirm} />
