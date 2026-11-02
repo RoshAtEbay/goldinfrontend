@@ -50,7 +50,7 @@ export function PlainFacts({
       <div className="mt-4 flex flex-col gap-5">
         <FactGroup label="Bid">
           <FactRow label="Current Max Bid">{formatUsd(maxBid)}</FactRow>
-          <FactRow label="Current Price">{formatUsd(BID.currentPrice)}</FactRow>
+          <FactRow label="Current Bid">{formatUsd(BID.currentPrice)}</FactRow>
           <FactRow label="Next Bid">{formatUsd(NEXT_BID)}</FactRow>
           <FactRow
             label="Bidding Power"

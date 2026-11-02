@@ -39,7 +39,7 @@ export const BID = {
   lotNumber: 2,
   title: 'Pokemon Lot',
   initialMaxBid: 175,
-  currentPrice: 175,
+  currentPrice: 162.5,
   minimumBid: 175,
   biddingPower: 9825,
   winner: true,
@@ -49,7 +49,8 @@ export const BID = {
 export const MAX_BID_INPUT_ID = 'max-bid-input'
 
 export const LOT_LABEL = 'Pokémon Lot'
-export const NEXT_BID = 187.5
+export const BID_INCREMENT = 12.5
+export const NEXT_BID = BID.currentPrice + BID_INCREMENT
 
 export const OTHER_BID = {
   placedAt: '09/24/2026 10:00 AM',
