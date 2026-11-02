@@ -132,7 +132,6 @@ function EditBidDialog({ field }: { field: MaxBidField }) {
 function ConfirmRemovalDialog({ confirm }: { confirm: RemovalConfirm }) {
   return (
     <div className="mx-auto w-full max-w-[460px]">
-      <OutcomeToggle confirm={confirm} />
       <section
         role="alertdialog"
         aria-labelledby="option-a-confirm-title"
@@ -176,6 +175,7 @@ function ConfirmRemovalDialog({ confirm }: { confirm: RemovalConfirm }) {
           </div>
         </div>
       </section>
+      <OutcomeToggle confirm={confirm} />
     </div>
   )
 }

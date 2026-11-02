@@ -47,7 +47,7 @@ export function OutcomeToggle({ confirm }: { confirm: RemovalConfirm }) {
     <div
       role="group"
       aria-label="Preview outcome"
-      className="mb-3 flex items-center gap-2 text-[12px] text-faint"
+      className="mt-3 flex items-center gap-2 text-[12px] text-faint"
     >
       <span>Preview outcome:</span>
       <div className="flex overflow-hidden rounded border border-field-line">
