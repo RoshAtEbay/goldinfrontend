@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, type ReactNode } from 'react'
+import { useState } from 'react'
 import { Check, Copy, Mail, Phone } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -58,28 +58,6 @@ function CopyButton({ value, label }: { value: string; label: string }) {
         <Copy aria-hidden className="size-3.5" />
       )}
     </button>
-  )
-}
-
-export const PLAIN_DL =
-  'grid grid-cols-[8.5rem_1fr] items-center gap-x-4 gap-y-1 text-[13px]'
-
-export function FactRow({
-  label,
-  tone,
-  children,
-}: {
-  label: string
-  tone?: string
-  children: ReactNode
-}) {
-  return (
-    <>
-      <dt className="text-faint">{label}</dt>
-      <dd className={cn('min-w-0 font-medium', tone ?? 'text-ink')}>
-        {children}
-      </dd>
-    </>
   )
 }
 

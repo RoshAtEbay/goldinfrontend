@@ -24,7 +24,7 @@ import {
 const EDIT_COPY = {
   title: 'Edit bid modal',
   description:
-    'The lot title leads, then four plain rows: current max bid, current price, next bid and bidding power. Contact details are not repeated here. No boxes.',
+    'The lot title leads, then four figures side by side, label over value: current max bid, current price, next bid and bidding power. Contact details are not repeated here. No boxes.',
   banner: {
     kind: 'pros' as const,
     text: 'Only the figures CS needs to set a new max bid are on screen, and contact details stay in the removal confirmation.',
