@@ -38,13 +38,11 @@ export function PlainFacts(props: FactsProps) {
   return (
     <div className={props.className}>
       <LotTitle />
-      <dl className="mt-3 grid grid-cols-[8.5rem_1fr] items-center gap-x-4 gap-y-1 text-[13px]">
+      <dl className="mt-3 flex flex-col gap-1 text-[15px] font-normal leading-6 text-ink">
         {factsFor(props).map(({ label, value, tone }) => (
-          <div key={label} className="contents">
-            <dt className="text-faint">{label}</dt>
-            <dd className={cn('min-w-0 font-medium', tone ?? 'text-ink')}>
-              {value}
-            </dd>
+          <div key={label} className="flex flex-wrap gap-x-1.5">
+            <dt>{label}:</dt>
+            <dd className={cn('min-w-0', tone)}>{value}</dd>
           </div>
         ))}
       </dl>
