@@ -25,10 +25,10 @@ import {
 const EDIT_COPY = {
   title: 'Edit bid modal',
   description:
-    'The lot title leads, then two labelled groups: Bid (status, max bid, current price, next bid) and Bidder (bidding power, email, phone). Plain rows with no boxes.',
+    'The lot title leads, then two labelled groups split by a hairline: Bid (status, max bid, current price, next bid, bidding power) and Contact (email, phone). Plain rows with no boxes.',
   banner: {
     kind: 'pros' as const,
-    text: 'Every fact is still there, and the two headings let CS jump to the bid figures or the customer details without reading every row.',
+    text: 'Every fact is still there, and the two headings let CS jump to the bid figures or the contact details without reading every row.',
   },
 }
 
