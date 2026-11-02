@@ -96,7 +96,7 @@ function EditBidDialog({ field }: { field: MaxBidField }) {
 
         <div className="pt-4">
           <p className="mb-2 text-[13px] font-semibold text-ink">
-            Adjust max bid
+            Maximum Bid
           </p>
           <MaxBidInput
             field={field}
