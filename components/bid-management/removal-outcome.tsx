@@ -117,8 +117,15 @@ export function RemovalImpact({
       <dl className="grid grid-cols-2 gap-x-4 gap-y-3">
         {groups.map((group) => (
           <Fragment key={group.id}>
-            {group.rows.map((row) => (
-              <div key={row.label}>
+            {group.rows.map((row, index) => (
+              <div
+                key={row.label}
+                className={cn(
+                  group.id === 'new' &&
+                    index === 0 &&
+                    "relative before:absolute before:-top-1.5 before:left-0 before:h-px before:w-[calc(200%+1rem)] before:bg-line before:content-['']",
+                )}
+              >
                 <dt className="text-[11px] text-faint">{row.label}</dt>
                 <dd
                   className={cn(
