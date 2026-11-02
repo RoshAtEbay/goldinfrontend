@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { Trash2, X } from 'lucide-react'
 import { BID, CUSTOMER, LOT_LABEL } from '@/lib/bids'
 import { BidSummaryCard } from './bid-summary-card'
-import { BidderSection, ContactChips } from './bidder-context'
+import { BidderContactRow, ContactChips } from './bidder-context'
 import {
   MaxBidInput,
   SaveBidButton,
@@ -61,18 +61,18 @@ const DESIGNS: Design[] = [
     label: 'Option A · One merged card',
     edit: {
       description:
-        'One grey card answers both questions: the bidder (name, status, email, phone) on top, the lot facts below. The title becomes "Change bid".',
+        'The bidder\'s email and phone sit in one compact row at the bottom of the grey bid card, below the lot facts. Title unchanged.',
       banner: {
         kind: 'pros',
-        text: 'One card to scan, and the bidder is always tied to the bid they own.',
+        text: 'Contact stays attached to the bid it belongs to and adds only one short row.',
       },
     },
     confirm: {
       description:
-        'The same card, with the before/after grid in place of the lot facts.',
+        'The same contact row at the bottom of the card, below the before/after grid.',
       banner: {
         kind: 'cons',
-        text: 'The card gets tall, and the before/after grid sits under a long contact block.',
+        text: 'Contact is the last thing in the card, so it is easy to read past on the way to the checkbox.',
       },
     },
   },
@@ -108,8 +108,6 @@ function EditBidDialog({
   field: MaxBidField
   design: DesignId
 }) {
-  const identityInTitle = design === 'current' || design === 'b'
-
   return (
     <section
       role="dialog"
@@ -118,9 +116,7 @@ function EditBidDialog({
     >
       <div className="flex items-start justify-between gap-4">
         <h3 className="text-[15px] font-semibold text-ink">
-          {identityInTitle
-            ? `Change bid on behalf of ${CUSTOMER.name}`
-            : 'Change bid'}
+              {`Change bid on behalf of ${CUSTOMER.name}`}
         </h3>
         <button
           type="button"
@@ -136,7 +132,7 @@ function EditBidDialog({
 
       <BidSummaryCard
         maxBid={field.saved}
-        bidder={design === 'a' ? <BidderSection /> : undefined}
+        bidder={design === 'a' ? <BidderContactRow /> : undefined}
         className="mb-5 mt-4"
       />
 
@@ -215,7 +211,7 @@ function ConfirmRemovalDialog({
 
         <RemovalImpactCard
           confirm={confirm}
-          bidder={design === 'a' ? <BidderSection /> : undefined}
+          bidder={design === 'a' ? <BidderContactRow /> : undefined}
           className="mb-5 mt-4"
         />
 

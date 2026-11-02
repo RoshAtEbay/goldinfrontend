@@ -29,11 +29,6 @@ const CONTACTS = [
   },
 ]
 
-const INITIALS = CUSTOMER.name
-  .split(' ')
-  .map((part) => part[0])
-  .join('')
-
 function CopyButton({ value, label }: { value: string; label: string }) {
   const [copied, setCopied] = useState(false)
 
@@ -63,56 +58,24 @@ function CopyButton({ value, label }: { value: string; label: string }) {
   )
 }
 
-function Avatar({ className }: { className?: string }) {
-  return (
-    <span
-      aria-hidden
-      className={cn(
-        'flex shrink-0 items-center justify-center rounded-full bg-context font-semibold text-ink',
-        className,
-      )}
-    >
-      {INITIALS}
-    </span>
-  )
-}
-
-function StatusText() {
-  return (
-    <span className="text-[12px] font-semibold capitalize text-success">
-      {CUSTOMER.status.toLowerCase()}
-    </span>
-  )
-}
-
-/** Option A: bidder section that lives inside the grey bid card. */
-export function BidderSection() {
+/** Option A: one compact contact row at the bottom of the grey bid card. */
+export function BidderContactRow() {
   return (
     <div>
-      <p className="text-[11px] text-faint">Bidder</p>
-      <p className="mt-1 flex items-center gap-2.5">
-        <Avatar className="size-7 bg-surface text-[11px]" />
-        <span className="text-[14px] font-semibold text-ink">
-          {CUSTOMER.name}
-        </span>
-        <StatusText />
-      </p>
-      <dl className="mt-2 flex flex-col">
+      <p className="text-[11px] text-faint">Contact</p>
+      <ul className="flex flex-wrap items-center gap-x-4">
         {CONTACTS.map(({ key, label, copyValue, display, href }) => (
-          <div key={key} className="flex items-center gap-3">
-            <dt className="w-12 shrink-0 text-[11px] text-faint">{label}</dt>
-            <dd className="flex min-w-0 flex-1 items-center justify-between gap-2">
-              <a
-                href={href}
-                className="truncate text-[13px] font-semibold text-ink hover:underline focus-visible:outline-2 focus-visible:outline-brand"
-              >
-                {display}
-              </a>
-              <CopyButton value={copyValue} label={label.toLowerCase()} />
-            </dd>
-          </div>
+          <li key={key} className="flex items-center">
+            <a
+              href={href}
+              className="text-[13px] text-ink hover:underline focus-visible:outline-2 focus-visible:outline-brand"
+            >
+              {display}
+            </a>
+            <CopyButton value={copyValue} label={label.toLowerCase()} />
+          </li>
         ))}
-      </dl>
+      </ul>
     </div>
   )
 }

@@ -30,12 +30,6 @@ export function BidSummaryCard({
 
   return (
     <div className={cn('rounded-md bg-context px-4 py-3', className)}>
-      {bidder && (
-        <>
-          {bidder}
-          <hr className="my-3 border-divider" />
-        </>
-      )}
       <p className="flex items-baseline gap-2">
         <span className="text-[14px] font-semibold text-ink">{LOT_LABEL}</span>
         <span className="text-[12px] text-faint">Lot #{BID.lotNumber}</span>
@@ -55,6 +49,12 @@ export function BidSummaryCard({
           </div>
         ))}
       </dl>
+      {bidder && (
+        <>
+          <hr className="my-3 border-divider" />
+          {bidder}
+        </>
+      )}
     </div>
   )
 }
