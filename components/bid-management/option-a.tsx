@@ -141,6 +141,13 @@ function ConfirmRemovalDialog({ confirm }: { confirm: RemovalConfirm }) {
         <ModalHeader title="Confirm bid removal" titleId="option-a-confirm-title" />
 
         <div className="px-6 pb-6 pt-5">
+          <p className="mb-3 text-[15px] font-semibold text-ink">
+            {LOT_LABEL}{' '}
+            <span className="text-[13px] font-normal text-faint">
+              Lot #{BID.lotNumber}
+            </span>
+          </p>
+
           <RemovalWarning lotLabel={`${LOT_LABEL} #${BID.lotNumber}`} />
 
           <RemovalImpactCard

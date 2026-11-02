@@ -161,11 +161,8 @@ export function RemovalImpactCard({
   className?: string
 }) {
   return (
-    <div className={cn('rounded-md bg-context px-4 py-3', className)}>
-      <p className="text-[14px] font-semibold text-ink">
-        {LOT_LABEL} — Lot #{BID.lotNumber}
-      </p>
-      <RemovalImpact confirm={confirm} className="mt-3" />
+    <div className={cn('rounded-md bg-context px-4 py-4', className)}>
+      <RemovalImpact confirm={confirm} />
     </div>
   )
 }
