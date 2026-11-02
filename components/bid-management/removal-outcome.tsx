@@ -1,7 +1,7 @@
 'use client'
 
-import { useId, useState } from 'react'
-import { Check, Copy, TriangleAlert } from 'lucide-react'
+import { useId, useState, type ReactNode } from 'react'
+import { TriangleAlert } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import {
   BID,
@@ -22,22 +22,9 @@ const SCENARIOS: { id: Scenario; label: string }[] = [
   { id: 'none', label: 'No other bidders' },
 ]
 
-type Outcome = {
-  winner: string
-  bid: number | null
-  contact: { email: string; phone: string } | null
-}
-
-const OUTCOMES: Record<Scenario, Outcome> = {
-  another: {
-    winner: NEW_LEADING_BIDDER.name,
-    bid: NEW_LEADING_BIDDER.maxBid,
-    contact: {
-      email: NEW_LEADING_BIDDER.email,
-      phone: NEW_LEADING_BIDDER.phone,
-    },
-  },
-  none: { winner: 'None', bid: null, contact: null },
+const OUTCOMES: Record<Scenario, { winner: string; bid: number | null }> = {
+  another: { winner: NEW_LEADING_BIDDER.name, bid: NEW_LEADING_BIDDER.maxBid },
+  none: { winner: 'None', bid: null },
 }
 
 export function useRemovalConfirm() {
@@ -140,108 +127,25 @@ export function RemovalImpact({
 
 export function RemovalImpactCard({
   confirm,
+  bidder,
   className,
 }: {
   confirm: ReturnType<typeof useRemovalConfirm>
+  bidder?: ReactNode
   className?: string
 }) {
   return (
     <div className={cn('rounded-md bg-context px-4 py-3', className)}>
+      {bidder && (
+        <>
+          {bidder}
+          <hr className="my-3 border-divider" />
+        </>
+      )}
       <p className="text-[14px] font-semibold text-ink">
         {LOT_LABEL} — Lot #{BID.lotNumber}
       </p>
       <RemovalImpact confirm={confirm} className="mt-3" />
-      <hr className="my-3 border-divider" />
-      <NewLeaderContact confirm={confirm} />
-    </div>
-  )
-}
-
-function CopyButton({ value, label }: { value: string; label: string }) {
-  const [copied, setCopied] = useState(false)
-
-  async function copy() {
-    try {
-      await navigator.clipboard.writeText(value)
-    } catch {
-      return
-    }
-    setCopied(true)
-    setTimeout(() => setCopied(false), 1500)
-  }
-
-  return (
-    <button
-      type="button"
-      onClick={copy}
-      aria-label={copied ? `${label} copied` : `Copy ${label}`}
-      className="flex size-7 shrink-0 items-center justify-center rounded text-faint hover:bg-page hover:text-ink focus-visible:outline-2 focus-visible:outline-brand"
-    >
-      {copied ? (
-        <Check aria-hidden className="size-3.5 text-success" />
-      ) : (
-        <Copy aria-hidden className="size-3.5" />
-      )}
-    </button>
-  )
-}
-
-function NewLeaderContact({ confirm }: { confirm: RemovalConfirm }) {
-  const { outcome } = confirm
-
-  if (!outcome.contact) {
-    return (
-      <div>
-        <p className="text-[13px] font-semibold text-ink">
-          New leading bidder contact details
-        </p>
-        <p className="mt-1 text-[13px] leading-snug text-subtle">
-          There are no other bidders on this lot, so there is no one to contact.
-        </p>
-      </div>
-    )
-  }
-
-  const rows = [
-    {
-      label: 'Email',
-      value: outcome.contact.email,
-      href: `mailto:${outcome.contact.email}`,
-    },
-    {
-      label: 'Phone',
-      value: outcome.contact.phone,
-      href: `tel:${outcome.contact.phone}`,
-    },
-  ]
-
-  return (
-    <div>
-      <p className="text-[13px] font-semibold text-ink">
-        New leading bidder contact details
-      </p>
-      <p className="mt-1 text-[12px] leading-snug text-subtle">
-        Contact {outcome.winner} before removing this bid so they know they
-        are now leading.
-      </p>
-      <dl className="mt-2 flex flex-col gap-1">
-        {rows.map((row) => (
-          <div key={row.label} className="flex items-center gap-3">
-            <dt className="w-12 shrink-0 text-[11px] text-faint">
-              {row.label}
-            </dt>
-            <dd className="flex min-w-0 flex-1 items-center justify-between gap-2">
-              <a
-                href={row.href}
-                className="truncate text-[14px] font-semibold text-ink hover:underline focus-visible:outline-2 focus-visible:outline-brand"
-              >
-                {row.value}
-              </a>
-              <CopyButton value={row.value} label={row.label.toLowerCase()} />
-            </dd>
-          </div>
-        ))}
-      </dl>
     </div>
   )
 }
