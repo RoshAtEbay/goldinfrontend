@@ -1,5 +1,3 @@
-import { Check } from 'lucide-react'
-import { cn } from '@/lib/utils'
 import { BID, LOT_LABEL, NEXT_BID, formatUsd } from '@/lib/bids'
 
 export function BidSummaryCard({
@@ -12,16 +10,6 @@ export function BidSummaryCard({
   const facts = [
     { label: 'Max Bid', value: formatUsd(maxBid) },
     { label: 'Current Price', value: formatUsd(BID.currentPrice) },
-    {
-      label: 'Status',
-      value: (
-        <span className="inline-flex items-center gap-1">
-          Winning
-          <Check aria-hidden className="size-3.5" strokeWidth={3} />
-        </span>
-      ),
-      tone: 'text-success',
-    },
     { label: 'Next Bid', value: formatUsd(NEXT_BID) },
   ]
 
@@ -35,12 +23,7 @@ export function BidSummaryCard({
         {facts.map((fact) => (
           <div key={fact.label}>
             <dt className="text-[11px] text-faint">{fact.label}</dt>
-            <dd
-              className={cn(
-                'mt-0.5 text-[14px] font-semibold',
-                fact.tone ?? 'text-ink',
-              )}
-            >
+            <dd className="mt-0.5 text-[14px] font-semibold text-ink">
               {fact.value}
             </dd>
           </div>
