@@ -2,14 +2,15 @@
 
 import { useState } from 'react'
 import { CurrentState } from './current-state'
-import { OptionA } from './option-a'
+import { OptionA, OptionB } from './option-a'
 import { TableOptionA } from './table-option-a'
 import { Switcher } from './variant-switcher'
 
 const SURFACES = [
   { id: 'current', label: 'Current' },
   { id: 'table', label: 'Bids table' },
-  { id: 'modal', label: 'Edit bid modal' },
+  { id: 'modal', label: 'Edit bid modal · Option A' },
+  { id: 'modalB', label: 'Edit bid modal · Option B' },
 ] as const
 
 type SurfaceId = (typeof SURFACES)[number]['id']
@@ -18,6 +19,7 @@ const VIEWS: Record<SurfaceId, () => React.JSX.Element> = {
   current: CurrentState,
   table: TableOptionA,
   modal: OptionA,
+  modalB: OptionB,
 }
 
 const PANEL_ID = 'board-panel'
