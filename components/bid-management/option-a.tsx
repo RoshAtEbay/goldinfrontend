@@ -61,7 +61,7 @@ const DESIGNS: Design[] = [
     label: 'Option A · One merged card',
     edit: {
       description:
-        'The bidder\'s email and phone sit in one compact row at the bottom of the grey bid card, below the lot facts. Title unchanged.',
+        'The bidder\'s email and phone sit in one compact row at the bottom of the grey bid card, below the lot facts. The title keeps "on behalf of Adam Bales".',
       banner: {
         kind: 'pros',
         text: 'Contact stays attached to the bid it belongs to and adds only one short row.',
@@ -101,6 +101,35 @@ const DESIGNS: Design[] = [
 const CARD = 'mx-auto w-full rounded-lg border border-line bg-surface shadow-sm'
 const PANEL_ID = 'layout-panel'
 
+function ModalHeader({
+  title,
+  titleId,
+  onClose,
+}: {
+  title: string
+  titleId?: string
+  onClose?: () => void
+}) {
+  return (
+    <header className="relative flex min-h-14 items-center justify-center border-b border-divider px-14 py-3">
+      <h3
+        id={titleId}
+        className="text-balance text-center text-[16px] font-bold leading-snug text-ink"
+      >
+        {title}
+      </h3>
+      <button
+        type="button"
+        aria-label="Close"
+        onClick={onClose}
+        className="absolute right-3 top-1/2 flex size-8 -translate-y-1/2 items-center justify-center rounded-full text-faint hover:bg-page hover:text-ink focus-visible:outline-2 focus-visible:outline-brand"
+      >
+        <X aria-hidden className="size-5" strokeWidth={1.5} />
+      </button>
+    </header>
+  )
+}
+
 function EditBidDialog({
   field,
   design,
@@ -111,62 +140,55 @@ function EditBidDialog({
   return (
     <section
       role="dialog"
-      aria-label={`Change bid on behalf of ${CUSTOMER.name}`}
-      className={`${CARD} max-w-[500px] p-6`}
+      aria-label={`Edit maximum bid on behalf of ${CUSTOMER.name}`}
+      className={`${CARD} max-w-[500px]`}
     >
-      <div className="flex items-start justify-between gap-4">
-        <h3 className="text-[15px] font-semibold text-ink">
-              {`Change bid on behalf of ${CUSTOMER.name}`}
-        </h3>
-        <button
-          type="button"
-          aria-label="Close"
-          onClick={field.reset}
-          className="-mr-1 -mt-1 flex size-7 shrink-0 items-center justify-center rounded text-faint hover:text-ink focus-visible:outline-2 focus-visible:outline-brand"
-        >
-          <X aria-hidden className="size-4" />
-        </button>
-      </div>
-
-      {design === 'b' && <ContactChips className="mt-3" />}
-
-      <BidSummaryCard
-        maxBid={field.saved}
-        bidder={design === 'a' ? <BidderContactRow /> : undefined}
-        className="mb-5 mt-4"
+      <ModalHeader
+        title={`Edit maximum bid on behalf of ${CUSTOMER.name}`}
+        onClose={field.reset}
       />
 
-      <hr className="border-divider" />
+      <div className="px-6 pb-6 pt-5">
+        {design === 'b' && <ContactChips />}
 
-      <div className="pt-4">
-        <p className="mb-2 text-[13px] font-semibold text-ink">
-          Adjust max bid
-        </p>
-        <MaxBidInput
-          field={field}
-          helper={MIN_BID_HELPER}
-          ariaLabel="New max bid"
-          action={<SaveBidButton field={field} />}
+        <BidSummaryCard
+          maxBid={field.saved}
+          bidder={design === 'a' ? <BidderContactRow /> : undefined}
+          className={design === 'b' ? 'mb-5 mt-4' : 'mb-5'}
         />
-      </div>
 
-      <hr className="my-4 border-divider" />
+        <hr className="border-divider" />
 
-      <div className="pb-1">
-        <div className="flex items-center justify-between gap-4">
-          <div className="min-w-0 flex-1">
-            <p className="text-[13px] font-semibold text-ink">Remove bid</p>
-            <p className="mt-0.5 text-[13px] leading-relaxed text-subtle">
-              {REMOVE_BID_COPY}
-            </p>
+        <div className="pt-4">
+          <p className="mb-2 text-[13px] font-semibold text-ink">
+            Adjust max bid
+          </p>
+          <MaxBidInput
+            field={field}
+            helper={MIN_BID_HELPER}
+            ariaLabel="New max bid"
+            action={<SaveBidButton field={field} />}
+          />
+        </div>
+
+        <hr className="my-4 border-divider" />
+
+        <div className="pb-1">
+          <div className="flex items-center justify-between gap-4">
+            <div className="min-w-0 flex-1">
+              <p className="text-[13px] font-semibold text-ink">Remove bid</p>
+              <p className="mt-0.5 text-[13px] leading-relaxed text-subtle">
+                {REMOVE_BID_COPY}
+              </p>
+            </div>
+            <button
+              type="button"
+              className="flex h-9 w-[110px] shrink-0 items-center justify-center gap-1.5 rounded border border-field-line bg-surface text-[13px] font-medium text-error-line transition-colors hover:border-error-line hover:bg-error-line hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-error-line"
+            >
+              <Trash2 aria-hidden className="size-3.5" />
+              Remove bid
+            </button>
           </div>
-          <button
-            type="button"
-            className="flex h-9 w-[110px] shrink-0 items-center justify-center gap-1.5 rounded border border-field-line bg-surface text-[13px] font-medium text-error-line transition-colors hover:border-error-line hover:bg-error-line hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-error-line"
-          >
-            <Trash2 aria-hidden className="size-3.5" />
-            Remove bid
-          </button>
         </div>
       </div>
     </section>
@@ -186,55 +208,43 @@ function ConfirmRemovalDialog({
       <section
         role="alertdialog"
         aria-labelledby="option-a-confirm-title"
-        className={`${CARD} p-6`}
+        className={CARD}
       >
-        <div className="flex items-start justify-between gap-4">
-          <h3
-            id="option-a-confirm-title"
-            className="text-[15px] font-semibold text-ink"
-          >
-            Confirm bid removal
-          </h3>
-          <button
-            type="button"
-            aria-label="Close"
-            className="-mr-1 -mt-1 flex size-7 shrink-0 items-center justify-center rounded text-faint hover:text-ink focus-visible:outline-2 focus-visible:outline-brand"
-          >
-            <X aria-hidden className="size-4" />
-          </button>
-        </div>
+        <ModalHeader title="Confirm bid removal" titleId="option-a-confirm-title" />
 
-        {design === 'b' && <ContactChips className="mt-3" />}
+        <div className="px-6 pb-6 pt-5">
+          {design === 'b' && <ContactChips />}
 
-        <RemovalWarning
-          lotLabel={`${LOT_LABEL} #${BID.lotNumber}`}
-          className="mt-4"
-        />
+          <RemovalWarning
+            lotLabel={`${LOT_LABEL} #${BID.lotNumber}`}
+            className={design === 'b' ? 'mt-4' : undefined}
+          />
 
-        <RemovalImpactCard
-          confirm={confirm}
-          bidder={design === 'a' ? <BidderContactRow /> : undefined}
-          className="mb-5 mt-4"
-        />
+          <RemovalImpactCard
+            confirm={confirm}
+            bidder={design === 'a' ? <BidderContactRow /> : undefined}
+            className="mb-5 mt-4"
+          />
 
-        <div className="mb-5">
-          <AcknowledgeCheckbox confirm={confirm} />
-        </div>
+          <div className="mb-5">
+            <AcknowledgeCheckbox confirm={confirm} />
+          </div>
 
-        <div className="flex justify-end gap-2">
-          <button
-            type="button"
-            className="h-9 w-20 rounded border border-button-line bg-surface text-[13px] text-subtle hover:bg-page focus-visible:outline-2 focus-visible:outline-brand"
-          >
-            Cancel
-          </button>
-          <button
-            type="button"
-            disabled={!confirm.understood}
-            className="h-9 w-[130px] rounded bg-error-line text-[13px] font-medium text-white hover:bg-error-line/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-error-line disabled:cursor-not-allowed disabled:bg-disabled disabled:hover:bg-disabled"
-          >
-            Confirm removal
-          </button>
+          <div className="flex justify-end gap-2">
+            <button
+              type="button"
+              className="h-9 w-20 rounded border border-button-line bg-surface text-[13px] text-subtle hover:bg-page focus-visible:outline-2 focus-visible:outline-brand"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              disabled={!confirm.understood}
+              className="h-9 w-[130px] rounded bg-error-line text-[13px] font-medium text-white hover:bg-error-line/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-error-line disabled:cursor-not-allowed disabled:bg-disabled disabled:hover:bg-disabled"
+            >
+              Confirm removal
+            </button>
+          </div>
         </div>
       </section>
     </div>
