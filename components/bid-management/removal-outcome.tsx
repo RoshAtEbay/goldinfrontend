@@ -12,7 +12,7 @@ import {
 } from '@/lib/bids'
 import { ContactChips } from './bidder-context'
 
-export const MIN_BID_HELPER = `Minimum Bid: ${formatUsd(BID.minimumBid)}. This is the next bid on ${LOT_LABEL} #${BID.lotNumber}.`
+export const MIN_BID_HELPER = `Minimum max bid: ${formatUsd(BID.minimumBid)}. This is the current price of ${LOT_LABEL} #${BID.lotNumber}.`
 
 export const REMOVE_BID_COPY = `Remove ${CUSTOMER.name}'s most recent bid on ${LOT_LABEL} #${BID.lotNumber}. If it's the winning bid, the next highest bid will take its place.`
 
