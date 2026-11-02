@@ -35,7 +35,7 @@ const EDIT_COPY: Record<
   rows: {
     title: 'Edit bid modal',
     description:
-      'A regular "Title: lot" line leads, then four bold "Label: value" lines, tightly spaced: current max bid, current price, next bid and bidding power. Contact details are not repeated here. No boxes.',
+      'The lot title leads, then four plain rows: current max bid, current price, next bid and bidding power. Contact details are not repeated here. No boxes.',
     banner: EDIT_BANNER,
   },
   stacked: {
