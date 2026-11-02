@@ -19,7 +19,7 @@ export function BidSummaryCard({
         <span className="text-[14px] font-semibold text-ink">{LOT_LABEL}</span>
         <span className="text-[12px] text-faint">Lot #{BID.lotNumber}</span>
       </p>
-      <dl className="mt-3 grid grid-cols-2 gap-x-4 gap-y-3">
+      <dl className="mt-3 grid grid-cols-3 gap-x-4">
         {facts.map((fact) => (
           <div key={fact.label}>
             <dt className="text-[11px] text-faint">{fact.label}</dt>
