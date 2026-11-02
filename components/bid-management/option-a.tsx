@@ -100,7 +100,7 @@ export function OptionA() {
         right={{
           title: 'Option A — Removal Confirmation',
           description:
-            'CS clicks Remove bid. A separate "Confirm bid removal" modal shows who wins afterwards and requires ticking a checkbox before the bid can be removed.',
+            'CS clicks Remove bid. A separate "Confirm bid removal" modal shows who wins afterwards, with the new leading bidder\'s email and phone (copy buttons) so CS can contact them, and requires ticking a checkbox before the bid can be removed.',
           banner: {
             kind: 'cons',
             text: 'The Remove bid section at the bottom of the edit modal is quiet and may get missed under pressure. The required checkbox adds one more click to every removal.',

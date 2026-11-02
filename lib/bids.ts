@@ -13,6 +13,13 @@ export const CUSTOMER = {
   payoutAddress: 'Adam Bales',
 }
 
+export const NEW_LEADING_BIDDER = {
+  name: 'Jordan Reyes',
+  email: 'jordan.reyes@example.com',
+  phone: '+14155550142',
+  maxBid: 150,
+}
+
 export const PROFILE_TABS = [
   'Customer Overview',
   'Invoices',
