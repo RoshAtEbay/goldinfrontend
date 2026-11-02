@@ -162,7 +162,7 @@ function EditBidDialog({
           </div>
           <button
             type="button"
-            className="flex h-9 w-[110px] shrink-0 items-center justify-center gap-1.5 rounded border border-field-line bg-surface text-[13px] font-medium text-error-line hover:bg-danger-bg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-error-line"
+            className="flex h-9 w-[110px] shrink-0 items-center justify-center gap-1.5 rounded border border-field-line bg-surface text-[13px] font-medium text-error-line transition-colors hover:border-error-line hover:bg-error-line hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-error-line"
           >
             <Trash2 aria-hidden className="size-3.5" />
             Remove bid
