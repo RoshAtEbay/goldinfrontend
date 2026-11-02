@@ -1,15 +1,12 @@
-import type { ReactNode } from 'react'
 import { Check } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { BID, LOT_LABEL, NEXT_BID, formatUsd } from '@/lib/bids'
 
 export function BidSummaryCard({
   maxBid,
-  bidder,
   className,
 }: {
   maxBid: number
-  bidder?: ReactNode
   className?: string
 }) {
   const facts = [
@@ -49,12 +46,6 @@ export function BidSummaryCard({
           </div>
         ))}
       </dl>
-      {bidder && (
-        <>
-          <hr className="my-3 border-divider" />
-          {bidder}
-        </>
-      )}
     </div>
   )
 }

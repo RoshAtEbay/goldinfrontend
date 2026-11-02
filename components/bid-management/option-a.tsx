@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { Trash2, X } from 'lucide-react'
 import { BID, CUSTOMER, LOT_LABEL } from '@/lib/bids'
 import { BidSummaryCard } from './bid-summary-card'
-import { BidderContactRow, ContactChips } from './bidder-context'
+import { ContactChips } from './bidder-context'
 import {
   BiddingPower,
   MaxBidInput,
@@ -25,7 +25,7 @@ import {
 } from './removal-outcome'
 import { Switcher } from './variant-switcher'
 
-type DesignId = 'current' | 'a' | 'b'
+type DesignId = 'current' | 'b'
 
 type Note = { kind: 'pros' | 'cons'; text: string }
 
@@ -54,26 +54,6 @@ const DESIGNS: Design[] = [
       banner: {
         kind: 'cons',
         text: 'Same bidder, shown differently from the edit modal, with no way to contact them.',
-      },
-    },
-  },
-  {
-    id: 'a',
-    label: 'Option A · One merged card',
-    edit: {
-      description:
-        'The bidder\'s email and phone sit in one compact row at the bottom of the grey bid card, below the lot facts. The title keeps "on behalf of Adam Bales".',
-      banner: {
-        kind: 'pros',
-        text: 'Contact stays attached to the bid it belongs to and adds only one short row.',
-      },
-    },
-    confirm: {
-      description:
-        'The same contact row at the bottom of the card, below the before/after grid.',
-      banner: {
-        kind: 'cons',
-        text: 'Contact is the last thing in the card, so it is easy to read past on the way to the checkbox.',
       },
     },
   },
@@ -154,7 +134,6 @@ function EditBidDialog({
 
         <BidSummaryCard
           maxBid={field.saved}
-          bidder={design === 'a' ? <BidderContactRow /> : undefined}
           className={design === 'b' ? 'mb-5 mt-4' : 'mb-5'}
         />
 
@@ -224,7 +203,6 @@ function ConfirmRemovalDialog({
 
           <RemovalImpactCard
             confirm={confirm}
-            bidder={design === 'a' ? <BidderContactRow /> : undefined}
             className="mb-5 mt-4"
           />
 
@@ -254,7 +232,7 @@ function ConfirmRemovalDialog({
 }
 
 export function OptionA() {
-  const [designId, setDesignId] = useState<DesignId>('a')
+  const [designId, setDesignId] = useState<DesignId>('b')
   const field = useMaxBidField()
   const confirm = useRemovalConfirm()
   const design = DESIGNS.find((item) => item.id === designId) ?? DESIGNS[0]

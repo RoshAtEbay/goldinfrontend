@@ -58,29 +58,7 @@ function CopyButton({ value, label }: { value: string; label: string }) {
   )
 }
 
-/** Option A: one compact contact row at the bottom of the grey bid card. */
-export function BidderContactRow() {
-  return (
-    <div>
-      <p className="text-[11px] text-faint">Contact</p>
-      <ul className="flex flex-wrap items-center gap-x-4">
-        {CONTACTS.map(({ key, label, copyValue, display, href }) => (
-          <li key={key} className="flex items-center">
-            <a
-              href={href}
-              className="text-[13px] text-ink hover:underline focus-visible:outline-2 focus-visible:outline-brand"
-            >
-              {display}
-            </a>
-            <CopyButton value={copyValue} label={label.toLowerCase()} />
-          </li>
-        ))}
-      </ul>
-    </div>
-  )
-}
-
-/** Option B: two small copyable chips under the title. */
+/** Two small copyable chips under the title. */
 export function ContactChips({ className }: { className?: string }) {
   return (
     <ul className={cn('flex flex-wrap gap-1.5', className)}>

@@ -1,6 +1,6 @@
 'use client'
 
-import { useId, useState, type ReactNode } from 'react'
+import { useId, useState } from 'react'
 import { TriangleAlert } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import {
@@ -127,11 +127,9 @@ export function RemovalImpact({
 
 export function RemovalImpactCard({
   confirm,
-  bidder,
   className,
 }: {
   confirm: ReturnType<typeof useRemovalConfirm>
-  bidder?: ReactNode
   className?: string
 }) {
   return (
@@ -140,12 +138,6 @@ export function RemovalImpactCard({
         {LOT_LABEL} — Lot #{BID.lotNumber}
       </p>
       <RemovalImpact confirm={confirm} className="mt-3" />
-      {bidder && (
-        <>
-          <hr className="my-3 border-divider" />
-          {bidder}
-        </>
-      )}
     </div>
   )
 }
