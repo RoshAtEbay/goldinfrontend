@@ -6,6 +6,7 @@ import { BID, CUSTOMER, LOT_LABEL } from '@/lib/bids'
 import { BidSummaryCard } from './bid-summary-card'
 import { BidderContactRow, ContactChips } from './bidder-context'
 import {
+  BiddingPower,
   MaxBidInput,
   SaveBidButton,
   useMaxBidField,
@@ -160,9 +161,10 @@ function EditBidDialog({
         <hr className="border-divider" />
 
         <div className="pt-4">
-          <p className="mb-2 text-[13px] font-semibold text-ink">
-            Adjust max bid
-          </p>
+          <div className="mb-2 flex items-baseline justify-between gap-4">
+            <p className="text-[13px] font-semibold text-ink">Adjust max bid</p>
+            <BiddingPower field={field} />
+          </div>
           <MaxBidInput
             field={field}
             helper={MIN_BID_HELPER}
