@@ -25,10 +25,10 @@ import {
 const EDIT_COPY = {
   title: 'Edit bid modal',
   description:
-    'The lot, the three bid figures, Bidding Power, email and phone are one plain label and value list. Nothing sits in a box, pill or bold weight.',
+    'The lot title leads, then two labelled groups: Bid (status, max bid, current price, next bid) and Bidder (bidding power, email, phone). Plain rows with no boxes.',
   banner: {
     kind: 'pros' as const,
-    text: 'Every fact is still there, and Bidding Power sits with the figures it limits.',
+    text: 'Every fact is still there, and the two headings let CS jump to the bid figures or the customer details without reading every row.',
   },
 }
 

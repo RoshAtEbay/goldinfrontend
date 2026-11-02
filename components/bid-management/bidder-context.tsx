@@ -73,7 +73,9 @@ export function FactRow({
   return (
     <>
       <dt className="text-faint">{label}</dt>
-      <dd className={cn('min-w-0', tone ?? 'text-ink')}>{children}</dd>
+      <dd className={cn('min-w-0 font-medium', tone ?? 'text-ink')}>
+        {children}
+      </dd>
     </>
   )
 }
