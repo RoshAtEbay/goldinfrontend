@@ -3,7 +3,6 @@
 import { Trash2, X } from 'lucide-react'
 import { BID, CUSTOMER, LOT_LABEL } from '@/lib/bids'
 import { PlainFacts } from './bid-summary-card'
-import { ContactChips } from './bidder-context'
 import {
   MaxBidInput,
   SaveBidButton,
@@ -35,10 +34,10 @@ const EDIT_COPY = {
 const CONFIRM_COPY = {
   title: 'Removal confirmation',
   description:
-    'Adam Bales\'s email and phone chips sit under the title. The before/after card repeats a one-row contact line under each person: Adam under the current winner and Jordan Reyes under the new winner, with no extra label.',
+    'The warning leads, and contact details sit in the before/after card: Adam Bales under the current winner and Jordan Reyes under the new winner, each as one row of copyable email and phone chips.',
   banner: {
-    kind: 'cons' as const,
-    text: 'Adam\'s contact details now appear twice, under the title and in the card, which adds length to the dialog.',
+    kind: 'pros' as const,
+    text: 'Each contact sits directly under the person it belongs to, so there are no labels or duplicates to read past.',
   },
 }
 
@@ -142,12 +141,7 @@ function ConfirmRemovalDialog({ confirm }: { confirm: RemovalConfirm }) {
         <ModalHeader title="Confirm bid removal" titleId="option-a-confirm-title" />
 
         <div className="px-6 pb-6 pt-5">
-          <ContactChips person={CUSTOMER} />
-
-          <RemovalWarning
-            lotLabel={`${LOT_LABEL} #${BID.lotNumber}`}
-            className="mt-4"
-          />
+          <RemovalWarning lotLabel={`${LOT_LABEL} #${BID.lotNumber}`} />
 
           <RemovalImpactCard
             confirm={confirm}
