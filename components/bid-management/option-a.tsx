@@ -153,11 +153,13 @@ function EditBidDialog({
       <hr className="my-4 border-divider" />
 
       <div className="pb-1">
-        <p className="mb-1.5 text-[13px] font-semibold text-ink">Remove bid</p>
         <div className="flex items-center justify-between gap-4">
-          <p className="min-w-0 flex-1 text-[13px] leading-relaxed text-subtle">
-            {REMOVE_BID_COPY}
-          </p>
+          <div className="min-w-0 flex-1">
+            <p className="text-[13px] font-semibold text-ink">Remove bid</p>
+            <p className="mt-0.5 text-[13px] leading-relaxed text-subtle">
+              {REMOVE_BID_COPY}
+            </p>
+          </div>
           <button
             type="button"
             className="flex h-9 w-[110px] shrink-0 items-center justify-center gap-1.5 rounded border border-field-line bg-surface text-[13px] font-medium text-error-line hover:bg-danger-bg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-error-line"
