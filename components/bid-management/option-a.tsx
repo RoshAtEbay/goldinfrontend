@@ -25,10 +25,10 @@ import {
 const EDIT_COPY = {
   title: 'Edit bid modal',
   description:
-    'The lot title leads, then two labelled groups split by a hairline: Bid (current max bid, current price, next bid, bidding power) and Contact (email, phone). Plain rows with no boxes.',
+    'The lot title leads, then four plain rows: current max bid, current price, next bid and bidding power. Contact details are not repeated here. No boxes.',
   banner: {
     kind: 'pros' as const,
-    text: 'Every fact is still there, and the two headings let CS jump to the bid figures or the contact details without reading every row.',
+    text: 'Only the figures CS needs to set a new max bid are on screen, and contact details stay in the removal confirmation.',
   },
 }
 

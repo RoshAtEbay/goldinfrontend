@@ -80,29 +80,6 @@ export function FactRow({
   )
 }
 
-/** Email and phone as plain label/value rows, for use inside a PLAIN_DL grid. */
-export function ContactRows() {
-  return (
-    <>
-      {CONTACTS.map(({ key, label, copyValue, display, href }) => (
-        <FactRow key={key} label={label}>
-          <span className="flex items-center">
-            <a
-              href={href}
-              className="truncate hover:underline focus-visible:outline-2 focus-visible:outline-brand"
-            >
-              {display}
-            </a>
-            <span className="-my-1.5">
-              <CopyButton value={copyValue} label={label.toLowerCase()} />
-            </span>
-          </span>
-        </FactRow>
-      ))}
-    </>
-  )
-}
-
 /** Two small copyable chips under the title. */
 export function ContactChips({ className }: { className?: string }) {
   return (
