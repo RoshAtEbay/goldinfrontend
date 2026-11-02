@@ -59,7 +59,7 @@ function CopyButton({ value, label }: { value: string; label: string }) {
 }
 
 export const PLAIN_DL =
-  'grid grid-cols-[7rem_1fr] items-center gap-x-4 gap-y-1 text-[13px]'
+  'grid grid-cols-[8.5rem_1fr] items-center gap-x-4 gap-y-1 text-[13px]'
 
 export function FactRow({
   label,
