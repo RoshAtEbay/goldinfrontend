@@ -121,9 +121,10 @@ export function RemovalImpact({
               <div
                 key={row.label}
                 className={cn(
+                  group.id === 'new' && 'mt-2 pt-4',
                   group.id === 'new' &&
                     index === 0 &&
-                    "relative before:absolute before:-top-1.5 before:left-0 before:h-px before:w-[calc(200%+1rem)] before:bg-line before:content-['']",
+                    "relative before:absolute before:top-0 before:left-0 before:h-px before:w-[calc(200%+1rem)] before:bg-line before:content-['']",
                 )}
               >
                 <dt className="text-[11px] text-faint">{row.label}</dt>
