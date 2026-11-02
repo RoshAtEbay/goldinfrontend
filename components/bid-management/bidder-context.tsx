@@ -3,31 +3,35 @@
 import { useState, type ReactNode } from 'react'
 import { Check, Copy, Mail, Phone } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { CUSTOMER } from '@/lib/bids'
+import { CUSTOMER, NEW_LEADING_BIDDER } from '@/lib/bids'
 
 function formatPhone(raw: string) {
   const match = raw.match(/^\+1(\d{3})(\d{3})(\d{4})$/)
   return match ? `+1 (${match[1]}) ${match[2]}-${match[3]}` : raw
 }
 
-const CONTACTS = [
-  {
-    key: 'email',
-    label: 'Email',
-    copyValue: CUSTOMER.email,
-    display: CUSTOMER.email,
-    href: `mailto:${CUSTOMER.email}`,
-    Icon: Mail,
-  },
-  {
-    key: 'phone',
-    label: 'Phone',
-    copyValue: CUSTOMER.phone,
-    display: formatPhone(CUSTOMER.phone),
-    href: `tel:${CUSTOMER.phone}`,
-    Icon: Phone,
-  },
-]
+type Person = { name: string; email: string; phone: string }
+
+function contactsFor(person: Person) {
+  return [
+    {
+      key: 'email',
+      label: 'Email',
+      copyValue: person.email,
+      display: person.email,
+      href: `mailto:${person.email}`,
+      Icon: Mail,
+    },
+    {
+      key: 'phone',
+      label: 'Phone',
+      copyValue: person.phone,
+      display: formatPhone(person.phone),
+      href: `tel:${person.phone}`,
+      Icon: Phone,
+    },
+  ]
+}
 
 function CopyButton({ value, label }: { value: string; label: string }) {
   const [copied, setCopied] = useState(false)
@@ -80,11 +84,62 @@ export function FactRow({
   )
 }
 
-/** Two small copyable chips under the title. */
-export function ContactChips({ className }: { className?: string }) {
+/** Both people affected by the removal, each with their own copyable contact chips. */
+export function BothContacts({
+  hasNextBidder,
+  className,
+}: {
+  hasNextBidder: boolean
+  className?: string
+}) {
+  return (
+    <div className={cn('flex flex-col gap-3', className)}>
+      <PersonContacts
+        person={CUSTOMER}
+        role="Bid being removed"
+        nameId="contact-removed"
+      />
+      {hasNextBidder && (
+        <PersonContacts
+          person={NEW_LEADING_BIDDER}
+          role="Next highest bidder"
+          nameId="contact-next"
+        />
+      )}
+    </div>
+  )
+}
+
+function PersonContacts({
+  person,
+  role,
+  nameId,
+}: {
+  person: Person
+  role: string
+  nameId: string
+}) {
+  return (
+    <section aria-labelledby={nameId}>
+      <p id={nameId} className="mb-1.5 text-[12px]">
+        <span className="font-semibold text-ink">{person.name}</span>
+        <span className="text-faint"> · {role}</span>
+      </p>
+      <ContactChips person={person} />
+    </section>
+  )
+}
+
+function ContactChips({
+  person,
+  className,
+}: {
+  person: Person
+  className?: string
+}) {
   return (
     <ul className={cn('flex flex-wrap gap-1.5', className)}>
-      {CONTACTS.map(({ key, label, copyValue, display, href, Icon }) => (
+      {contactsFor(person).map(({ key, label, copyValue, display, href, Icon }) => (
         <li
           key={key}
           className="flex h-8 items-center gap-1.5 rounded-full border border-line bg-surface pl-2.5 pr-1"

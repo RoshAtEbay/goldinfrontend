@@ -15,6 +15,8 @@ export const CUSTOMER = {
 
 export const NEW_LEADING_BIDDER = {
   name: 'Jordan Reyes',
+  email: 'jordan.reyes@example.com',
+  phone: '+12065550142',
   maxBid: 150,
 }
 
