@@ -1,5 +1,4 @@
 import type { ReactNode } from 'react'
-import { Check } from 'lucide-react'
 import { BID, LOT_LABEL, NEXT_BID, formatUsd } from '@/lib/bids'
 import { ContactRows, FactRow, PLAIN_DL } from './bidder-context'
 
@@ -50,12 +49,6 @@ export function PlainFacts({
 
       <div className="mt-4 flex flex-col gap-5">
         <FactGroup label="Bid">
-          <FactRow label="Status" tone="text-success">
-            <span className="inline-flex items-center gap-1">
-              Winning
-              <Check aria-hidden className="size-3.5" strokeWidth={3} />
-            </span>
-          </FactRow>
           <FactRow label="Max Bid">{formatUsd(maxBid)}</FactRow>
           <FactRow label="Current Price">{formatUsd(BID.currentPrice)}</FactRow>
           <FactRow label="Next Bid">{formatUsd(NEXT_BID)}</FactRow>
