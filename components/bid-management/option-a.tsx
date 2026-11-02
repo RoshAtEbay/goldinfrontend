@@ -35,7 +35,7 @@ const EDIT_COPY = {
 const CONFIRM_COPY = {
   title: 'Removal confirmation',
   description:
-    'Adam Bales\'s email and phone chips sit under the title. The before/after card repeats a one-row contact line under each person: "Current winner contact info" for Adam and "New winner contact info" for Jordan Reyes.',
+    'Adam Bales\'s email and phone chips sit under the title. The before/after card repeats a one-row contact line under each person: Adam under the current winner and Jordan Reyes under the new winner, with no extra label.',
   banner: {
     kind: 'cons' as const,
     text: 'Adam\'s contact details now appear twice, under the title and in the card, which adds length to the dialog.',

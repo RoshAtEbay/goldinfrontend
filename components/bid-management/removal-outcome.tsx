@@ -132,8 +132,8 @@ export function RemovalImpact({
             ))}
             {group.person && (
               <div className="col-span-2">
-                <dt className="text-[11px] text-faint">{group.contactLabel}</dt>
-                <dd className="mt-1.5">
+                <dt className="sr-only">{group.contactLabel}</dt>
+                <dd>
                   <ContactChips person={group.person} compact />
                 </dd>
               </div>
