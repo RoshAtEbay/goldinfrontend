@@ -37,8 +37,11 @@ function LotTitle() {
 export function PlainFacts(props: FactsProps) {
   return (
     <div className={props.className}>
-      <LotTitle />
-      <dl className="mt-3 flex flex-col gap-1 text-[15px] font-normal leading-6 text-ink">
+      <p className="text-[14px] font-normal leading-5 text-ink">
+        Title: {LOT_LABEL}{' '}
+        <span className="text-[13px] text-faint">Lot #{BID.lotNumber}</span>
+      </p>
+      <dl className="mt-4 flex flex-col gap-0.5 text-[14px] font-semibold leading-5 text-ink">
         {factsFor(props).map(({ label, value, tone }) => (
           <div key={label} className="flex flex-wrap gap-x-1.5">
             <dt>{label}:</dt>
