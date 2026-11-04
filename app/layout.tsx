@@ -6,9 +6,9 @@ import './globals.css'
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 
 export const metadata: Metadata = {
-  title: 'Goldin Admin | Bid Management',
+  title: 'Goldin Admin | Edit General Info',
   description:
-    'Bid management in Zen Admin: the current state plus three proposed options for adjusting and removing a bid.',
+    'Two states of the Edit General Info modal used by customer service to manage bidder accounts.',
   generator: 'v0.app',
   icons: {
     icon: [

@@ -7,8 +7,6 @@ import { EditGeneralInfoCard, type Variant } from './edit-general-info-card'
 const OPTIONS: { id: Variant; label: string }[] = [
   { id: 'current', label: 'Current' },
   { id: 'a', label: 'Option A' },
-  { id: 'b', label: 'Option B' },
-  { id: 'c', label: 'Option C' },
 ]
 
 function Comparison({
@@ -20,6 +18,7 @@ function Comparison({
   leftLabel = 'Default state',
   rightLabel = 'Too-low state',
   rightProps = { initialCreditLimit: '2,000' },
+  extra,
 }: {
   variant: Variant
   defaultNote: React.ReactNode
@@ -29,6 +28,11 @@ function Comparison({
   leftLabel?: string
   rightLabel?: string
   rightProps?: React.ComponentProps<typeof EditGeneralInfoCard>
+  extra?: {
+    label: string
+    note: React.ReactNode
+    props: React.ComponentProps<typeof EditGeneralInfoCard>
+  }
 }) {
   const noteClass = 'mb-3 text-[13px] leading-relaxed text-subtle'
   const sectionClass =
@@ -48,6 +52,19 @@ function Comparison({
           {...rightProps}
         />
       </section>
+      {extra && (
+        <section
+          aria-label={extra.label}
+          className="mx-auto w-full max-w-[520px] md:col-span-2 md:mt-10"
+        >
+          <p className={noteClass}>{extra.note}</p>
+          <EditGeneralInfoCard
+            key={`${variant}-extra`}
+            variant={variant}
+            {...extra.props}
+          />
+        </section>
+      )}
       <div className="grid grid-cols-1 gap-8 md:col-span-2 md:mt-8 md:grid-cols-2 md:gap-12">
         <p className="mx-auto w-full max-w-[520px] text-[13px] leading-relaxed text-subtle">
           <span className="font-semibold text-ink">Pros:</span> {pros}
@@ -61,7 +78,7 @@ function Comparison({
 }
 
 export function BiddingPrototype() {
-  const [variant, setVariant] = useState<Variant>('current')
+  const [variant, setVariant] = useState<Variant>('a')
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-page px-6 py-12">
@@ -94,85 +111,37 @@ export function BiddingPrototype() {
           defaultNote={
             <>
               <span className="font-semibold text-ink">Default.</span> Below
-              the Credit limit field, always show &ldquo;Minimum: $3,000 (active
-              bids)&rdquo; in small gray helper text. Below the Restrict Bidding
-              toggle, a one-liner: &ldquo;Blocks all new bids immediately,
-              regardless of credit limit.&rdquo;
+              the Credit limit field, show &ldquo;Minimum credit limit: $3,000.
+              This amount is required to cover bids already placed on the
+              account.&rdquo; in small gray helper text (hidden when the user
+              has no active bids). Below the Restrict Bidding toggle, a
+              one-liner: &ldquo;Blocks the user from placing any new bids.&rdquo;
             </>
           }
           errorNote={
             <>
               <span className="font-semibold text-ink">On error</span> (value
-              entered below minimum): field border turns red, inline message
-              appears: &ldquo;Can&apos;t go below $3,000. To block bidding
-              entirely, use Restrict Bidding below.&rdquo;
+              entered below minimum): field border turns red and the default
+              helper text stays in place, with a red message beneath it:
+              &ldquo;Enter a credit limit of $3,000 or more.&rdquo;
             </>
           }
+          extra={{
+            label: 'No active bids state',
+            props: { activeBidTotal: 0 },
+            note: (
+              <>
+                <span className="font-semibold text-ink">
+                  No active bids.
+                </span>{' '}
+                The Credit limit field has no minimum, so the &ldquo;Minimum
+                credit limit&rdquo; helper text is hidden. The Restrict
+                Bidding one-liner still shows, and any value can be saved.
+              </>
+            ),
+          }}
           pros="Minimal change, low eng effort, easy to get approved."
           cons="Restrict Bidding is still buried at the bottom. CS reps who are in a hurry will still miss it. Doesn't solve the discoverability problem, just the information problem."
-        />
-      ) : variant === 'b' ? (
-        <Comparison
-          variant="b"
-          defaultNote={
-            <>
-              <span className="font-semibold text-ink">
-                Progressive disclosure with live validation.
-              </span>{' '}
-              The bet: CS reps make the wrong choice because they don&apos;t see
-              the consequence until after they hit submit, so show it while they
-              type. The Credit limit field shows the minimum as always-visible
-              helper text, and Restrict Bidding gets a description: &ldquo;Blocks
-              all new bids immediately, regardless of credit limit. Use this to
-              stop a user from bidding right now.&rdquo;
-            </>
-          }
-          errorNote={
-            <>
-              <span className="font-semibold text-ink">Too low.</span> As soon
-              as the entered value drops below the minimum while typing, an amber
-  callout slides in between Credit limit and Consignment Manager:
-  &ldquo;$2,000 is below the active bid total ($3,000), so it
-  can&apos;t be saved. Want to block all bidding instead?&rdquo; Confirm
-  stays disabled until the value is $3,000 or more, or Restrict
-  Bidding is turned on. The &ldquo;Turn on Restrict Bidding&rdquo;
-  button scrolls to and highlights the toggle. Enter a valid value and the callout
-              disappears.
-            </>
-          }
-          pros="Catches the mistake before it happens. Actively routes CS reps to the right tool. Feels modern and intelligent."
-          cons="More engineering complexity (live validation state). The callout appearing and disappearing while typing might feel jumpy. Needs careful copy to not feel like an error when it's just a guidance moment."
-        />
-      ) : variant === 'c' ? (
-        <Comparison
-          variant="c"
-          leftLabel="Adjust credit limit state"
-          rightLabel="Block bidding state"
-          rightProps={{ initialMode: 'block' }}
-          defaultNote={
-            <>
-              <span className="font-semibold text-ink">
-                Adjust credit limit (default).
-              </span>{' '}
-              The bet: the root cause isn&apos;t missing information, it&apos;s
-              that two different jobs are jammed into the same form, so separate
-              them. Two pill options sit below the title. This tab holds only
-              the account details: the Credit limit field with its minimum
-              helper, Consignment Manager, and the Verified TIN and payment
-              reminder toggles. Restrict Bidding does not appear here.
-            </>
-          }
-          errorNote={
-            <>
-              <span className="font-semibold text-ink">Block bidding.</span>{' '}
-              This tab holds only the Restrict Bidding toggle, front and center
-              with a bold label and a description of what it does and what
-              happens to existing bids. The credit limit and other fields do
-              not appear here.
-            </>
-          }
-          pros="Completely eliminates the confusion. CS reps pick their intent first. Hard to accidentally use the wrong tool."
-          cons="Most structural change. Adds a step. Some CS reps may want to do both (reduce limit and restrict), and this makes that harder. Needs Adam's sign-off since it changes the modal architecture."
         />
       ) : (
         <div className="w-full max-w-[520px]">

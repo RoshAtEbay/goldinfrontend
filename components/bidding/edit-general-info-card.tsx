@@ -8,7 +8,8 @@ import { ToggleSwitch } from './toggle-switch'
 export type Variant = 'current' | 'a' | 'b' | 'c'
 
 const MANAGERS = ['Alex Rivera', 'Jordan Lee', 'Priya Shah', 'Sam Okafor']
-const MIN_CREDIT = 3000
+const DEFAULT_ACTIVE_BID_TOTAL = 3000
+const RESTRICT_DESCRIPTION = 'Blocks the user from placing any new bids'
 const INITIAL_CREDIT = '5,000'
 
 const usd = (value: number) => `$${value.toLocaleString('en-US')}`
@@ -69,13 +70,18 @@ export function EditGeneralInfoCard({
   variant = 'current',
   initialCreditLimit = INITIAL_CREDIT,
   initialMode = 'adjust',
+  activeBidTotal = DEFAULT_ACTIVE_BID_TOTAL,
 }: {
   variant?: Variant
   initialCreditLimit?: string
   initialMode?: 'adjust' | 'block'
+  activeBidTotal?: number
 }) {
+  const minCredit = activeBidTotal
+  const hasActiveBids = minCredit > 0
   const creditId = useId()
   const creditHelpId = useId()
+  const creditErrorId = useId()
   const managerId = useId()
 
   const [creditLimit, setCreditLimit] = useState(initialCreditLimit)
@@ -96,7 +102,8 @@ export function EditGeneralInfoCard({
 
   const digits = creditLimit.replace(/[^0-9]/g, '')
   const creditValue = digits === '' ? null : Number(digits)
-  const belowMinimum = creditValue !== null && creditValue < MIN_CREDIT
+  const belowMinimum =
+    hasActiveBids && creditValue !== null && creditValue < minCredit
 
   const isDirty =
     creditLimit !== INITIAL_CREDIT ||
@@ -110,17 +117,13 @@ export function EditGeneralInfoCard({
   const confirmDisabled =
     variant === 'current' || !isDirty || hasBlockingError || hasUnsavableLimit
 
-  const showHelper = variant !== 'current'
+  const showHelper = variant !== 'current' && hasActiveBids
   const showCallout = variant === 'b' && belowMinimum
   const showTabs = variant === 'c'
   const blockMode = variant === 'c' && mode === 'block'
 
   const restrictDescription =
-    variant === 'a'
-      ? 'Blocks all new bids immediately, regardless of credit limit'
-      : variant === 'b'
-        ? 'Blocks all new bids immediately, regardless of credit limit. Use this to stop a user from bidding right now.'
-        : undefined
+    variant === 'a' || variant === 'b' ? RESTRICT_DESCRIPTION : undefined
 
   const scrollToRestrict = () => {
     restrictRowRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
@@ -188,7 +191,11 @@ export function EditGeneralInfoCard({
             inputMode="numeric"
             value={creditLimit}
             aria-invalid={hasBlockingError || undefined}
-            aria-describedby={showHelper ? creditHelpId : undefined}
+            aria-describedby={
+              [showHelper && creditHelpId, hasBlockingError && creditErrorId]
+                .filter(Boolean)
+                .join(' ') || undefined
+            }
             onChange={(event) => setCreditLimit(event.target.value)}
             className={cn(
               'h-9 w-full rounded border bg-surface px-2.5 text-sm text-ink outline-none focus:border-brand',
@@ -200,15 +207,18 @@ export function EditGeneralInfoCard({
           {showHelper && (
             <p
               id={creditHelpId}
-              aria-live="polite"
-              className={cn(
-                'mt-1.5 text-xs leading-relaxed',
-                hasBlockingError ? 'text-error-ink' : 'text-faint',
-              )}
+              className="mt-1.5 text-xs leading-relaxed text-faint"
             >
-              {hasBlockingError
-                ? `Can't go below ${usd(MIN_CREDIT)}. To block bidding entirely, use Restrict Bidding below.`
-                : `Minimum: ${usd(MIN_CREDIT)} (active bids)`}
+              {`Minimum credit limit: ${usd(minCredit)}. This amount is required to cover bids already placed on the account.`}
+            </p>
+          )}
+          {hasBlockingError && (
+            <p
+              id={creditErrorId}
+              role="alert"
+              className="mt-1.5 text-xs font-medium leading-relaxed text-error-ink"
+            >
+              {`Enter a credit limit of ${usd(minCredit)} or more.`}
             </p>
           )}
           {variant === 'b' && (
@@ -232,7 +242,7 @@ export function EditGeneralInfoCard({
                   <div className="text-[13px] leading-relaxed">
                     <p>
                       {creditValue !== null ? usd(creditValue) : '$0'} is below
-                      the active bid total ({usd(MIN_CREDIT)}), so it can&apos;t
+                      the active bid total ({usd(minCredit)}), so it can&apos;t
                       be saved. Want to block all bidding instead?
                     </p>
                     <button
@@ -368,9 +378,8 @@ function RestrictPanel({
         />
       </div>
       <p id={descId} className="mt-2 text-[13px] leading-relaxed text-subtle">
-        Blocks all new bids immediately, regardless of credit limit. Existing
-        bids stay as they are; this user just can&apos;t place any new ones until
-        the restriction is removed.
+        {RESTRICT_DESCRIPTION}. Existing bids stay as they are until the
+        restriction is removed.
       </p>
     </div>
   )

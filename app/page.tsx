@@ -1,5 +1,5 @@
-import { BidManagementBoard } from '@/components/bid-management/bid-management-board'
+import { BiddingPrototype } from '@/components/bidding/bidding-prototype'
 
 export default function Page() {
-  return <BidManagementBoard />
+  return <BiddingPrototype />
 }

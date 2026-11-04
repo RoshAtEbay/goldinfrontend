@@ -27,17 +27,6 @@
   --color-warn-bg: #fffbeb;
   --color-warn-line: #fcd34d;
   --color-warn-ink: #92400e;
-  --color-warn-edge: #fde68a;
-  --color-amber: #f59e0b;
-  --color-context: #f9f9f9;
-  --color-divider: #e8e8e8;
-  --color-danger-bg: #fef2f2;
-  --color-danger-line: #fecaca;
-  --color-success: #16a34a;
-  --color-expand-bg: #f0f7ff;
-  --color-expand-line: #bfdbfe;
-  --color-btn-ink: #374151;
-  --color-row-tint: #f8faff;
 }
 
 @theme inline {
