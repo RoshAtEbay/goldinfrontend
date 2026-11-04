@@ -121,9 +121,8 @@ export function BiddingPrototype() {
           errorNote={
             <>
               <span className="font-semibold text-ink">On error</span> (value
-              entered below minimum): field border turns red and the default
-              helper text stays in place, with a red message beneath it:
-              &ldquo;Enter a credit limit of $3,000 or more.&rdquo;
+  entered below minimum): field border turns red and the helper text
+  below it turns red. No extra message is added.
             </>
           }
           extra={{

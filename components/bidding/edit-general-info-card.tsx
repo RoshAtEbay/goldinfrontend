@@ -81,7 +81,6 @@ export function EditGeneralInfoCard({
   const hasActiveBids = minCredit > 0
   const creditId = useId()
   const creditHelpId = useId()
-  const creditErrorId = useId()
   const managerId = useId()
 
   const [creditLimit, setCreditLimit] = useState(initialCreditLimit)
@@ -191,11 +190,7 @@ export function EditGeneralInfoCard({
             inputMode="numeric"
             value={creditLimit}
             aria-invalid={hasBlockingError || undefined}
-            aria-describedby={
-              [showHelper && creditHelpId, hasBlockingError && creditErrorId]
-                .filter(Boolean)
-                .join(' ') || undefined
-            }
+            aria-describedby={showHelper ? creditHelpId : undefined}
             onChange={(event) => setCreditLimit(event.target.value)}
             className={cn(
               'h-9 w-full rounded border bg-surface px-2.5 text-sm text-ink outline-none focus:border-brand',
@@ -207,18 +202,13 @@ export function EditGeneralInfoCard({
           {showHelper && (
             <p
               id={creditHelpId}
-              className="mt-1.5 text-xs leading-relaxed text-faint"
+              role={hasBlockingError ? 'alert' : undefined}
+              className={cn(
+                'mt-1.5 text-xs leading-relaxed',
+                hasBlockingError ? 'font-medium text-error-ink' : 'text-faint',
+              )}
             >
               {`Minimum credit limit: ${usd(minCredit)}. This amount is required to cover bids already placed on the account.`}
-            </p>
-          )}
-          {hasBlockingError && (
-            <p
-              id={creditErrorId}
-              role="alert"
-              className="mt-1.5 text-xs font-medium leading-relaxed text-error-ink"
-            >
-              {`Enter a credit limit of ${usd(minCredit)} or more.`}
             </p>
           )}
           {variant === 'b' && (
