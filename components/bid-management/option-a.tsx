@@ -2,7 +2,7 @@
 
 import { Trash2, X } from 'lucide-react'
 import { BID, CUSTOMER, LOT_LABEL } from '@/lib/bids'
-import { PlainFacts, StackedFacts } from './bid-summary-card'
+import { BidFacts } from './bid-summary-card'
 import {
   MaxBidInput,
   SaveBidButton,
@@ -21,28 +21,13 @@ import {
   type RemovalConfirm,
 } from './removal-outcome'
 
-type InfoLayout = 'rows' | 'stacked'
-
-const EDIT_BANNER = {
-  kind: 'pros' as const,
-  text: 'Only the figures CS needs to set a new max bid are on screen, and contact details stay in the removal confirmation.',
-}
-
-const EDIT_COPY: Record<
-  InfoLayout,
-  { title: string; description: string; banner: typeof EDIT_BANNER }
-> = {
-  rows: {
-    title: 'Edit bid modal',
-    description:
-      'The lot title leads, then four plain rows: current max bid, current price, next bid and bidding power. Contact details are not repeated here. No boxes.',
-    banner: EDIT_BANNER,
-  },
-  stacked: {
-    title: 'Edit bid modal',
-    description:
-      'The lot title leads, then four figures side by side, label over value: current max bid, current price, next bid and bidding power. Contact details are not repeated here. No boxes.',
-    banner: EDIT_BANNER,
+const EDIT_COPY = {
+  title: 'Edit bid modal',
+  description:
+    'The lot title leads, then three figures side by side, label over value: current max bid, current price and bidding power. Contact details are not repeated here. No boxes.',
+  banner: {
+    kind: 'pros' as const,
+    text: 'Only the figures CS needs to set a new max bid are on screen, and contact details stay in the removal confirmation.',
   },
 }
 
@@ -87,15 +72,7 @@ function ModalHeader({
   )
 }
 
-function EditBidDialog({
-  field,
-  layout,
-}: {
-  field: MaxBidField
-  layout: InfoLayout
-}) {
-  const Facts = layout === 'stacked' ? StackedFacts : PlainFacts
-
+function EditBidDialog({ field }: { field: MaxBidField }) {
   return (
     <section
       role="dialog"
@@ -108,7 +85,7 @@ function EditBidDialog({
       />
 
       <div className="px-6 pb-6 pt-5">
-        <Facts
+        <BidFacts
           maxBid={field.saved}
           powerTooHigh={field.tooHigh}
           className="mb-5"
@@ -203,19 +180,18 @@ function ConfirmRemovalDialog({ confirm }: { confirm: RemovalConfirm }) {
   )
 }
 
-function ModalOption({ layout }: { layout: InfoLayout }) {
+export function EditBidOption() {
   const field = useMaxBidField()
   const confirm = useRemovalConfirm()
-  const copy = EDIT_COPY[layout]
 
   return (
     <div className="mx-auto w-full max-w-[1640px]">
       <OptionPair
         left={{
-          title: copy.title,
-          description: copy.description,
-          banner: copy.banner,
-          children: <EditBidDialog field={field} layout={layout} />,
+          title: EDIT_COPY.title,
+          description: EDIT_COPY.description,
+          banner: EDIT_COPY.banner,
+          children: <EditBidDialog field={field} />,
         }}
         right={{
           title: CONFIRM_COPY.title,
@@ -226,12 +202,4 @@ function ModalOption({ layout }: { layout: InfoLayout }) {
       />
     </div>
   )
-}
-
-export function OptionA() {
-  return <ModalOption layout="rows" />
-}
-
-export function OptionB() {
-  return <ModalOption layout="stacked" />
 }
